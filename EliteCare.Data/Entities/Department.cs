@@ -8,5 +8,7 @@
         public int FloorNumber { get; set; } 
         public string PhoneNumber { get; set; }
 
+
+        public SpecialistDoctorInDepartment SpecialistDoctorInDepartment { get; set; }
     }
 }

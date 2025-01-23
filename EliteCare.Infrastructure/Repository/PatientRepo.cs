@@ -1,0 +1,42 @@
+﻿using EliteCare.Data.Entities;
+using EliteCare.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EliteCare.Infrastructure.Repository
+{
+    internal class PatientRepo : GenericRepository<Patient>, IPatientRepo
+    {
+        public PatientRepo(ApplicationDbContext context):base(context)
+        {
+            
+        }
+        public async Task<IEnumerable<Appointment>> GetAppointmentsForPatient(int patientId)
+        {
+            var appointments = await _context.Appointments.Where(x => x.PatientId == patientId)
+                                                          .ToListAsync();
+
+            var appointmentstoo = await _context.Patients.Where(x => x.ID == patientId)
+                                                         .SelectMany(x => x.Appointments)
+                                                         .ToListAsync();
+
+            var appointmentstoothree = await (from a in _context.Appointments
+                                             join r in _context.Receptionists on a.ReceptionistId equals r.ID
+                                             where r.ID == patientId
+                                             select a).ToListAsync();
+
+            return appointmentstoo;
+        }
+
+        public async Task<Patient?> GetPatientByEmail(string email)
+        {
+            var patient = await _context.Patients.FirstOrDefaultAsync(x => x.Email == email);
+            return patient ?? null;
+        }
+    }
+}

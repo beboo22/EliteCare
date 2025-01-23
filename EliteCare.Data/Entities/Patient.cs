@@ -15,5 +15,6 @@ namespace EliteCare.Data.Entities
         public BloodType BloodType { get; set; } 
         public string EmergencyContact { get; set; } 
         public string MedicalHistory { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }

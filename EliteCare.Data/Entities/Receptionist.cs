@@ -20,5 +20,8 @@ namespace EliteCare.Data.Entities
         public decimal Salary { get; set; }
         public Gender Gender { get; set; }
 
+        public ICollection<Appointment> Appointments { get; set; }
+
+
     }
 }
