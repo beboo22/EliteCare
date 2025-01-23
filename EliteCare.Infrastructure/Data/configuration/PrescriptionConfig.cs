@@ -15,7 +15,7 @@ namespace EliteCare.Infrastructure.Data.configuration
             base.Configure(builder);
             builder.HasOne(x => x.Patient).WithMany().HasForeignKey(x => x.PatientId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.NoAction);
             builder.HasOne(x => x.Doctor).WithMany().HasForeignKey(x => x.DoctorId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.NoAction);
-            builder.Property(x=>x.FollowUpDate).IsRequired().HasColumnType(SQlSyntax.DateTime);
+            builder.Property(x => x.FollowUpDate).IsRequired().HasColumnType(SQlSyntax.DateTime);
             builder.Property(x => x.Notes).HasMaxLength(int.MaxValue).HasColumnType(SQlSyntax.NVarchar);
             builder.Property(x => x.Diagnosis).HasMaxLength(int.MaxValue).HasColumnType(SQlSyntax.NVarchar);
         }

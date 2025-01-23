@@ -13,6 +13,11 @@ namespace EliteCare.Data.Entities
         public Doctor Doctor { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
+
+        public int ReceptionistId { get; set; }
+        public Receptionist Receptionist { get; set; }
+
+
         public Status Status { get; set; }
         public int RoomId { get; set; }
         public Room Room { get; set; }

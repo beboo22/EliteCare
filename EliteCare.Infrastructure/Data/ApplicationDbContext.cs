@@ -2,11 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace EliteCare.Infrastructure
+namespace EliteCare.Infrastructure.Data
 {
-    public class EliteCareDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public EliteCareDbContext(DbContextOptions<EliteCareDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+
+
+
+
         #region property
         public DbSet<FeedBack> FeedBacks { get; set; }
         public DbSet<Address> addresses { get; set; }
@@ -19,12 +24,14 @@ namespace EliteCare.Infrastructure
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<Bill> Bills { get; set; }
-
-
         #endregion
+
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

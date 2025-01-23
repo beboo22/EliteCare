@@ -21,13 +21,13 @@ namespace EliteCare.Infrastructure.Data.configuration
                                                                        d => (Gender)Enum.Parse(typeof(Gender), d));
             //builder.Property(p => p.Address).HasMaxLength(255);
             builder.Property(p => p.PhoneNumber).HasMaxLength(15).HasColumnType(SQlSyntax.NVarchar);
-            builder.Property(p => p.Email).HasMaxLength(int.MaxValue).HasColumnType("decimal(18, 2)");
+            builder.Property(p => p.Email).HasMaxLength(int.MaxValue).HasColumnType(SQlSyntax.NVarchar);
             builder.Property(p => p.HireDate).IsRequired().HasColumnType(SQlSyntax.DateTime);
             builder.Property(p => p.Salary).IsRequired().HasColumnType(SQlSyntax.Decimal);
-            builder.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId);
 
-            builder.HasOne(x => x.GovernRoom).WithMany().HasForeignKey(x => x.RoomID);
             builder.Property(p => p.DateOfBirth).IsRequired().HasColumnType(SQlSyntax.DateTime);
+            builder.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId);
+            builder.HasOne(x => x.GovernRoom).WithMany().HasForeignKey(x => x.RoomID);
 
         }
     }
