@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EliteCare.Infrastructure.Repository
+namespace EliteCare.Infrastructure.Repository.Abstract
 {
     internal interface IPatientRepo : IGenericRepository<Patient>
     {

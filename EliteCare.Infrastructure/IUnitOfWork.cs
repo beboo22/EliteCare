@@ -1,18 +1,12 @@
 ﻿using EliteCare.Data.Entities;
-using EliteCare.Infrastructure.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EliteCare.Infrastructure.Repository.Abstract;
 
 namespace EliteCare.Infrastructure
 {
-    internal interface IUnitOfWork 
+    public interface IUnitOfWork
     {
-         IGenericRepository<T> Repo<T>() where T : BaseEntity, new();
-
-         Task<int> Commit();
-         void Dispose();
+        IGenericRepository<T> Repo<T>() where T : BaseEntity, new();
+        Task<int> Commit();
+        void Dispose();
     }
 }

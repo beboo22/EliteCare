@@ -1,8 +1,13 @@
-﻿namespace EliteCare.Data.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EliteCare.Core.Dtos
 {
-    public class Address
+    public class AddressReturnDtos
     {
-        public int Id { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }

@@ -10,6 +10,7 @@ namespace EliteCare.Data.Entities
     public class Doctor :BaseEntity
     {
         public string Fname { get; set; }
+        public string Sname { get; set; }
         public string Lname { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
@@ -19,7 +20,7 @@ namespace EliteCare.Data.Entities
         public DateTime HireDate { get; set; }
         public DateTime DateOfBirth { get; set; }
         public decimal Salary { get; set; }
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
         public Department Department { get; set; }
 
 

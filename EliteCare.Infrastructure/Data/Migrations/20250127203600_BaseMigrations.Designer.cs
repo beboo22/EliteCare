@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EliteCare.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250123102429_BaseMigration")]
-    partial class BaseMigration
+    [Migration("20250127203600_BaseMigrations")]
+    partial class BaseMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,10 +34,6 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nationality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -73,7 +69,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DoctorID1")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsActive")
@@ -82,10 +81,19 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int>("PatientId")
+                    b.Property<int>("PatientID")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("PatientID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceptionistID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReceptionistID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomID")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -96,12 +104,19 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("DoctorID");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("DoctorID1");
 
-                    b.HasIndex("RoomId")
-                        .IsUnique();
+                    b.HasIndex("PatientID");
+
+                    b.HasIndex("PatientID1");
+
+                    b.HasIndex("ReceptionistID");
+
+                    b.HasIndex("ReceptionistID1");
+
+                    b.HasIndex("RoomID");
 
                     b.ToTable("Appointments");
                 });
@@ -161,6 +176,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Bills");
                 });
 
@@ -183,14 +202,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("FloorNumber")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -226,8 +241,8 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("DATETIME");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("INT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -264,6 +279,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Sname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -377,6 +396,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Sname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -448,6 +471,10 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("NVARCHAR(max)");
+
+                    b.Property<string>("Sname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -560,9 +587,8 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -602,6 +628,8 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Receptionists");
                 });
@@ -644,31 +672,90 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("EliteCare.Data.Entities.SpecialistDoctorInDepartment", b =>
+                {
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DoctorId");
+
+                    b.HasIndex("DepartmentId")
+                        .IsUnique();
+
+                    b.ToTable("SpecialistDoctorInDepartment");
+                });
+
             modelBuilder.Entity("EliteCare.Data.Entities.Appointment", b =>
                 {
                     b.HasOne("EliteCare.Data.Entities.Doctor", "Doctor")
                         .WithMany()
-                        .HasForeignKey("DoctorId")
+                        .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Appointment_Doctor");
+
+                    b.HasOne("EliteCare.Data.Entities.Doctor", null)
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorID1");
 
                     b.HasOne("EliteCare.Data.Entities.Patient", "Patient")
                         .WithMany()
-                        .HasForeignKey("PatientId")
+                        .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Appointment_Patient");
+
+                    b.HasOne("EliteCare.Data.Entities.Patient", null)
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientID1");
+
+                    b.HasOne("EliteCare.Data.Entities.Receptionist", "Receptionist")
+                        .WithMany()
+                        .HasForeignKey("ReceptionistID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_Appointment_Receptionist");
+
+                    b.HasOne("EliteCare.Data.Entities.Receptionist", null)
+                        .WithMany("Appointments")
+                        .HasForeignKey("ReceptionistID1");
 
                     b.HasOne("EliteCare.Data.Entities.Room", "Room")
-                        .WithOne()
-                        .HasForeignKey("EliteCare.Data.Entities.Appointment", "RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_Appointment_Room");
 
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
 
+                    b.Navigation("Receptionist");
+
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.Bill", b =>
+                {
+                    b.HasOne("EliteCare.Data.Entities.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EliteCare.Data.Entities.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("EliteCare.Data.Entities.Doctor", b =>
@@ -681,9 +768,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     b.HasOne("EliteCare.Data.Entities.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentId");
 
                     b.Navigation("Address");
 
@@ -773,9 +858,63 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EliteCare.Data.Entities.Receptionist", b =>
+                {
+                    b.HasOne("EliteCare.Data.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.SpecialistDoctorInDepartment", b =>
+                {
+                    b.HasOne("EliteCare.Data.Entities.Department", "Department")
+                        .WithOne("SpecialistDoctorInDepartment")
+                        .HasForeignKey("EliteCare.Data.Entities.SpecialistDoctorInDepartment", "DepartmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("EliteCare.Data.Entities.Doctor", "Doctor")
+                        .WithOne("SpecialistDoctorInDepartment")
+                        .HasForeignKey("EliteCare.Data.Entities.SpecialistDoctorInDepartment", "DoctorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.Department", b =>
+                {
+                    b.Navigation("SpecialistDoctorInDepartment")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.Doctor", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("SpecialistDoctorInDepartment")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.Patient", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
             modelBuilder.Entity("EliteCare.Data.Entities.Prescription", b =>
                 {
                     b.Navigation("PrescriptionItems");
+                });
+
+            modelBuilder.Entity("EliteCare.Data.Entities.Receptionist", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

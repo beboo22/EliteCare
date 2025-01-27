@@ -1,5 +1,13 @@
+using EliteCare.Api.Mapper;
+using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
+using EliteCare.Infrastructure.Repository.Abstract;
+using EliteCare.Infrastructure.Repository.impelementation;
+using EliteCare.Service.Abstract;
+using EliteCare.Service.impelementation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace EliteCare.Api
 {
@@ -17,6 +25,21 @@ namespace EliteCare.Api
             // Register DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
+            builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+            builder.Services.AddAutoMapper(typeof(AtoMapper));
+
+            //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+
+
+
+
+
 
             var app = builder.Build();
 

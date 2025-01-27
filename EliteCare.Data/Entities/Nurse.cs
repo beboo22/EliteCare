@@ -11,6 +11,7 @@ namespace EliteCare.Data.Entities
     public class Nurse : BaseEntity
     {
         public string Fname { get; set; }
+        public string Sname { get; set; }
         public string Lname { get; set; }
         public string PhoneNumber { get; set; }
         [EmailAddress]

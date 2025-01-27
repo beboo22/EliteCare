@@ -5,6 +5,7 @@ namespace EliteCare.Data.Entities
     public class Patient : BaseEntity
     {
         public string Fname { get; set; }
+        public string Sname { get; set; }
         public string Lname { get; set; } 
         public DateTime DateOfBirth { get; set; } 
         public Gender Gender { get; set; } 

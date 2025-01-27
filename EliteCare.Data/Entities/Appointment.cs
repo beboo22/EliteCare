@@ -9,17 +9,17 @@ namespace EliteCare.Data.Entities
 {
     public class Appointment :BaseEntity
     {
-        public int DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
-        public int PatientId { get; set; }
-        public Patient Patient { get; set; }
+        public int DoctorID { get; set; }
+        public int PatientID { get; set; }
+        public int ReceptionistID { get; set; }
+        public int RoomID { get; set; }
 
-        public int ReceptionistId { get; set; }
+        public Doctor Doctor { get; set; }
+        public Patient Patient { get; set; }
         public Receptionist Receptionist { get; set; }
+        public Room Room { get; set; }
 
 
         public Status Status { get; set; }
-        public int RoomId { get; set; }
-        public Room Room { get; set; }
     }
 }

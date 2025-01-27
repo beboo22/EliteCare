@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EliteCare.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class BaseMigration : Migration
+    public partial class BaseMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,38 +21,11 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Zip = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_addresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bills",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    BillDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BalanceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bills", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,38 +39,13 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FloorNumber = table.Column<int>(type: "int", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Receptionists",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Receptionists", x => x.ID);
+                    table.PrimaryKey("PK_Departments", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,6 +75,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
+                    Sname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -152,12 +101,43 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Receptionists",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receptionists", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Receptionists_addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
+                    Sname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "NVARCHAR(max)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "NVARCHAR(max)", maxLength: 2147483647, nullable: false),
@@ -166,7 +146,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     HireDate = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "INT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
@@ -178,8 +158,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         name: "FK_Doctors_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Doctors_addresses_AddressId",
                         column: x => x.AddressId,
@@ -195,6 +174,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
+                    Sname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lname = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "NVARCHAR(max)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "NVARCHAR(max)", maxLength: 2147483647, nullable: false),
@@ -230,10 +210,14 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    ReceptionistID = table.Column<int>(type: "int", nullable: false),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    DoctorID1 = table.Column<int>(type: "int", nullable: true),
+                    PatientID1 = table.Column<int>(type: "int", nullable: true),
+                    ReceptionistID1 = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
@@ -242,21 +226,40 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Appointments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorId",
-                        column: x => x.DoctorId,
+                        name: "FK_Appointment_Doctor",
+                        column: x => x.DoctorID,
                         principalTable: "Doctors",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Appointments_Patients_PatientId",
-                        column: x => x.PatientId,
+                        name: "FK_Appointment_Patient",
+                        column: x => x.PatientID,
                         principalTable: "Patients",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Appointments_Rooms_RoomId",
-                        column: x => x.RoomId,
+                        name: "FK_Appointment_Receptionist",
+                        column: x => x.ReceptionistID,
+                        principalTable: "Receptionists",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Appointment_Room",
+                        column: x => x.RoomID,
                         principalTable: "Rooms",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorID1",
+                        column: x => x.DoctorID1,
+                        principalTable: "Doctors",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Patients_PatientID1",
+                        column: x => x.PatientID1,
+                        principalTable: "Patients",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Receptionists_ReceptionistID1",
+                        column: x => x.ReceptionistID1,
+                        principalTable: "Receptionists",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -288,6 +291,66 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpecialistDoctorInDepartment",
+                columns: table => new
+                {
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecialistDoctorInDepartment", x => x.DoctorId);
+                    table.ForeignKey(
+                        name: "FK_SpecialistDoctorInDepartment_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_SpecialistDoctorInDepartment_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    BillDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaidAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BalanceAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Bills_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bills_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -351,20 +414,49 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_DoctorId",
+                name: "IX_Appointments_DoctorID",
                 table: "Appointments",
-                column: "DoctorId");
+                column: "DoctorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_PatientId",
+                name: "IX_Appointments_DoctorID1",
                 table: "Appointments",
+                column: "DoctorID1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_PatientID",
+                table: "Appointments",
+                column: "PatientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_PatientID1",
+                table: "Appointments",
+                column: "PatientID1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ReceptionistID",
+                table: "Appointments",
+                column: "ReceptionistID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ReceptionistID1",
+                table: "Appointments",
+                column: "ReceptionistID1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_RoomID",
+                table: "Appointments",
+                column: "RoomID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bills_AppointmentId",
+                table: "Bills",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bills_PatientId",
+                table: "Bills",
                 column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_RoomId",
-                table: "Appointments",
-                column: "RoomId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_AddressId",
@@ -420,6 +512,17 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 name: "IX_Prescriptions_PatientId",
                 table: "Prescriptions",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receptionists_AddressId",
+                table: "Receptionists",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpecialistDoctorInDepartment_DepartmentId",
+                table: "SpecialistDoctorInDepartment",
+                column: "DepartmentId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -435,7 +538,7 @@ namespace EliteCare.Infrastructure.Data.Migrations
                 name: "PrescriptionItem");
 
             migrationBuilder.DropTable(
-                name: "Receptionists");
+                name: "SpecialistDoctorInDepartment");
 
             migrationBuilder.DropTable(
                 name: "Appointments");
@@ -445,6 +548,9 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Prescriptions");
+
+            migrationBuilder.DropTable(
+                name: "Receptionists");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

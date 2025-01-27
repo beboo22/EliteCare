@@ -10,4 +10,19 @@
     <ProjectReference Include="..\EliteCare.Service\EliteCare.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Doctors\Commands\Validations\" />
+    <Folder Include="Features\Nurse\Commands\Handlers\" />
+    <Folder Include="Features\Nurse\Commands\Models\" />
+    <Folder Include="Features\Nurse\Commands\Validations\" />
+    <Folder Include="Features\Nurse\Queries\Handlers\" />
+    <Folder Include="Features\Nurse\Queries\Models\" />
+    <Folder Include="Features\Nurse\Queries\Validations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
 </Project>

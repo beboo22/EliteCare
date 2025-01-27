@@ -1,19 +1,16 @@
 ﻿using EliteCare.Data.Entities;
 using EliteCare.Infrastructure.Data;
 using EliteCare.Infrastructure.Repository;
-using System;
+using EliteCare.Infrastructure.Repository.Abstract;
+using EliteCare.Infrastructure.Repository.impelementation;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure
 {
-    internal class UnitOfWork : IUnitOfWork ,IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private Hashtable DictRepo;
-        public UnitOfWork (ApplicationDbContext db)
+        public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             DictRepo = new Hashtable();
@@ -51,6 +48,6 @@ namespace EliteCare.Infrastructure
             }
 
             return (IGenericRepository<T>)DictRepo[Key];
-
         }
     }
+}

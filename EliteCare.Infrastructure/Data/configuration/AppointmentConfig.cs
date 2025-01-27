@@ -9,11 +9,30 @@ namespace EliteCare.Infrastructure.Data.configuration
         public override void Configure(EntityTypeBuilder<Appointment> builder)
         {
             base.Configure(builder);
-            builder.HasOne(x => x.Doctor).WithMany().HasForeignKey(x => x.DoctorId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.Patient).WithMany().HasForeignKey(x => x.PatientId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.Room).WithOne().HasForeignKey<Appointment>(x => x.RoomId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.Receptionist).WithOne().HasForeignKey<Appointment>(x => x.ReceptionistId).OnDelete(DeleteBehavior.NoAction);
-            
+            builder.HasOne(x => x.Doctor)
+               .WithMany()
+               .HasForeignKey(x => x.DoctorID)
+               .HasConstraintName("FK_Appointment_Doctor")
+               .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Patient)
+                   .WithMany()
+                   .HasForeignKey(x => x.PatientID)
+                   .HasConstraintName("FK_Appointment_Patient")
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Receptionist)
+                   .WithMany()
+                   .HasForeignKey(x => x.ReceptionistID)
+                   .HasConstraintName("FK_Appointment_Receptionist")
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Room)
+                   .WithMany()
+                   .HasForeignKey(x => x.RoomID)
+                   .HasConstraintName("FK_Appointment_Room")
+                   .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }
