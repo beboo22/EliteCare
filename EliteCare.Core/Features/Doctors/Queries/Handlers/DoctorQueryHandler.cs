@@ -7,7 +7,7 @@ using MediatR;
 
 namespace EliteCare.Core.Features.Doctors.Queries.Handlers
 {
-    internal class DoctorQueryHandler : IRequestHandler<GetAllDoctor, ApiResultResponse<List<TemplateDoctor>>>,
+    public class DoctorQueryHandler : IRequestHandler<GetAllDoctor, ApiResultResponse<List<TemplateDoctor>>>,
         IRequestHandler<GetDoctorById, ApiResultResponse<TemplateDoctor>>,
         IRequestHandler<GetDoctorsForDept, ApiResultResponse<List<TemplateDoctor>>>,
         IRequestHandler<GetDoctorByEmail,ApiResultResponse<TemplateDoctor>>,

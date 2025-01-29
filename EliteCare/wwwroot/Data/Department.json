@@ -1,0 +1,37 @@
+[
+  {
+    "Name": "Cardiology",
+    "Code": "CARD",
+    "Description": "Heart and cardiovascular care",
+    "FloorNumber": 3,
+    "PhoneNumber": "555-100-1001"
+  },
+  {
+    "Name": "Pediatrics",
+    "Code": "PEDS",
+    "Description": "Child healthcare",
+    "FloorNumber": 2,
+    "PhoneNumber": "555-100-1002"
+  },
+  {
+    "Name": "Orthopedics",
+    "Code": "ORTH",
+    "Description": "Musculoskeletal system care",
+    "FloorNumber": 4,
+    "PhoneNumber": "555-100-1003"
+  },
+  {
+    "Name": "Neurology",
+    "Code": "NEUR",
+    "Description": "Nervous system disorders",
+    "FloorNumber": 5,
+    "PhoneNumber": "555-100-1004"
+  },
+  {
+    "Name": "Oncology",
+    "Code": "ONCO",
+    "Description": "Cancer treatment",
+    "FloorNumber": 6,
+    "PhoneNumber": "555-100-1005"
+  }
+]

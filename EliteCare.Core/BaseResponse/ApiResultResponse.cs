@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Core.BaseResponse
 {
-    internal class ApiResultResponse<T> : ApiResponse
+    public class ApiResultResponse<T> : ApiResponse
     {
         public T? Data { get; set; }
         public ApiResultResponse(int Scode, T? _data, string? msg = null) : base(Scode, msg)

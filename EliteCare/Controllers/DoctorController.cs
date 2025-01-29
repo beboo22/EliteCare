@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EliteCare.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class DoctorController : BaseController
     {
         public IDoctorService DocServ { get; set; }
@@ -48,7 +46,7 @@ namespace EliteCare.Api.Controllers
         [HttpGet("GetAllDoctor")]
         public async Task<IActionResult> GetAllDoctor()
         {
-            var respnse = Mediator.Send(new GetAllDoctor());
+            var respnse = await Mediator.Send(new GetAllDoctor());
             return Ok(respnse);
         }
         [HttpGet("GetDoctorById/{id:int}")]

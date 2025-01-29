@@ -1,13 +1,14 @@
 using EliteCare.Api.Mapper;
+using EliteCare.Data.Entities;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
+using EliteCare.Infrastructure.Data.DataSeeding;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.Abstract;
 using EliteCare.Service.impelementation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace EliteCare.Api
 {
@@ -34,6 +35,9 @@ namespace EliteCare.Api
 
             //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DoctorQueryHandler).Assembly));
+            builder.Services.AddMediatR(cfg =>
+                                        cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
 
 
@@ -48,6 +52,7 @@ namespace EliteCare.Api
             var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             var context = services.GetRequiredService<ApplicationDbContext>();
+            var logger = services.GetRequiredService<ILogger<Program>>();
 
             try
             {
@@ -55,23 +60,46 @@ namespace EliteCare.Api
             }
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred while migrating the database.");
-
-
-
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseHttpsRedirection();
-                app.UseAuthorization();
-                app.MapControllers();
-                app.Run();
             }
+
+
+
+            // calling the seeding method
+
+
+            try
+            {
+                context.Set<Address>().RemoveRange(context.Set<Address>());
+                context.Set<Patient>().RemoveRange(context.Set<Patient>());
+                await Seeding.SeedDataAsync(context, logger);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
+
+
+
+
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
 
         }
     }
