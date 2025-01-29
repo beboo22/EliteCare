@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Core.BaseResponse
 {
-    internal class ApiResponse
+    public class ApiResponse
     {
         public int statusCode { get; set; }
         public string message { get; set; }

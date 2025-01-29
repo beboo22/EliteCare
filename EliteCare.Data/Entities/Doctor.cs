@@ -23,7 +23,6 @@ namespace EliteCare.Data.Entities
         public int? DepartmentId { get; set; }
         public Department Department { get; set; }
 
-
         public SpecialistDoctorInDepartment SpecialistDoctorInDepartment { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
 

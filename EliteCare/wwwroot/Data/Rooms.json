@@ -1,0 +1,12 @@
+[
+  {"Id":1,"Number":"101A","RoomType":2,"Capacity":4,"DepartmentId":1,"FloorNumber":3},
+  {"Id":2,"Number":"102B","RoomType":1,"Capacity":2,"DepartmentId":1,"FloorNumber":3},
+  {"Id":3,"Number":"201A","RoomType":0,"Capacity":6,"DepartmentId":2,"FloorNumber":2},
+  {"Id":4,"Number":"301A","RoomType":3,"Capacity":1,"DepartmentId":3,"FloorNumber":4},
+  {"Id":5,"Number":"401A","RoomType":2,"Capacity":3,"DepartmentId":4,"FloorNumber":5},
+  {"Id":6,"Number":"501A","RoomType":1,"Capacity":2,"DepartmentId":5,"FloorNumber":6},
+  {"Id":7,"Number":"ER1","RoomType":4,"Capacity":5,"DepartmentId":6,"FloorNumber":1},
+  {"Id":8,"Number":"ER2","RoomType":4,"Capacity":5,"DepartmentId":6,"FloorNumber":1},
+  {"Id":9,"Number":"ICU1","RoomType":2,"Capacity":2,"DepartmentId":1,"FloorNumber":3},
+  {"Id":10,"Number":"OR1","RoomType":1,"Capacity":1,"DepartmentId":3,"FloorNumber":4}
+]
