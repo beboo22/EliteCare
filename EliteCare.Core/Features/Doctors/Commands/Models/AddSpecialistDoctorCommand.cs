@@ -1,6 +1,5 @@
 ﻿using EliteCare.Core.BaseResponse;
 using EliteCare.Core.Dtos;
-using EliteCare.Core.Mapping;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Core.Features.Doctors.Commands.Models
 {
-    public class UpdateDoctorCommand: IRequest<ApiResultResponse<String>>
+    public class AddSpecialistDoctorCommand: IRequest<ApiResultResponse<String>>
     {
-        public UpdateDoctorDtos doctorDtos { get; set; }
-        public UpdateDoctorCommand(UpdateDoctorDtos _doctorDtos)
+        public AddSpecialistDoctorCommand(AddSpecialistDoctorDtos doctorDtos)
         {
-            doctorDtos = _doctorDtos;
+            DoctorDtos = doctorDtos;
         }
+
+        public AddSpecialistDoctorDtos DoctorDtos { get; }
     }
 }

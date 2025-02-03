@@ -12,6 +12,7 @@ namespace EliteCare.Service.Abstract
         Task<bool> DeleteDoctorAsync(int id);
         Task<bool> UpdateDoctorAsync(Doctor doctor, Address address);
         Task<bool> AddDoctorAsync(Doctor doctor, Address address);
+        
 
         Task<IEnumerable<Doctor>> GetAllDoctor();
         Task<Doctor> GetDoctorById(int id);

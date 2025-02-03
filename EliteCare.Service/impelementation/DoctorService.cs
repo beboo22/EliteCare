@@ -63,11 +63,6 @@ namespace EliteCare.Service.impelementation
         // crud operations
         public async Task<bool> AddDoctorAsync(Doctor doctor, Address address)
         {
-            _context.Set<Address>().Add(address);
-            doctor.Address = address;
-            doctor.CreatedAt = DateTime.Now;
-            doctor.IsActive = true;
-
             if (doctor.DepartmentId.HasValue)
             {
                 var depart = _unitOfWork.Repo<Department>();
@@ -78,9 +73,16 @@ namespace EliteCare.Service.impelementation
                     doctor.DepartmentId = null;
                 }
             }
+            _context.Set<Address>().Add(address);
+            await _unitOfWork.Commit();
+            doctor.AddressId = address.Id;
+
             bool flag = await DoctorRepo.AddAsync(doctor);
             if (flag)
-                await _unitOfWork.Commit(); 
+            {
+                int check = await _unitOfWork.Commit();
+                flag = check > 0;
+            }
             return flag;
         }
 
@@ -93,22 +95,27 @@ namespace EliteCare.Service.impelementation
             }
             if (address is not null)
             {
-                var add = await _context.Set<Address>().FindAsync(address.Id);
-                if (add is null)
+                address.Id = doc.AddressId;
+                try
                 {
                     _context.Set<Address>().Update(address);
-                    doctor.Address = address;
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    doctor.Address = add;
+                    throw;
                 }
+                doctor.Address = address;
+                doctor.AddressId = address.Id;
             }
 
             bool flag = DoctorRepo.Update(doctor);
             if (flag)
-                await _unitOfWork.Commit();
-            return true;
+            {
+                int check = await _unitOfWork.Commit();
+                flag = check > 0;
+            }
+            return flag;
         }
 
         public async Task<bool> DeleteDoctorAsync(int id)
@@ -124,18 +131,29 @@ namespace EliteCare.Service.impelementation
                 var add = await _context.Set<Address>().FindAsync(doctor.AddressId);
                 if (add is not null)
                 {
-                    _context.Set<Address>().Remove(add);
+                    try
+                    {
+                        _context.Set<Address>().Remove(add);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
                 }
             }
             var flag = DoctorRepo.Delete(doctor);
             if (flag)
-                await _unitOfWork.Commit();
+            {
+                int check = await _unitOfWork.Commit();
+                flag = check > 0;
+            }
             return flag;
         }
 
         public async Task<IEnumerable<Doctor>> GetAllDoctor()
         {
-            var DoctorSpec = new DoctorSpecification(null,null,null);
+            var DoctorSpec = new DoctorSpecification(null, null, null);
             var AllDoctor = await DoctorRepo.GetBySpecification(DoctorSpec);
 
             return AllDoctor;
@@ -150,5 +168,7 @@ namespace EliteCare.Service.impelementation
 
             return doctor;
         }
+
+        
     }
 }

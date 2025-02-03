@@ -12,8 +12,8 @@ namespace EliteCare.Core.Features.Doctors.Commands.Models
 {
     public class AddDoctorCommand : IRequest<ApiResultResponse<String>>
     {
-        public DoctorDtos doctorDtos { get; set; }
-        public AddDoctorCommand(DoctorDtos _doctorDtos)
+        public AddDoctorDtos doctorDtos { get; set; }
+        public AddDoctorCommand(AddDoctorDtos _doctorDtos)
         {
             doctorDtos = _doctorDtos;
         }

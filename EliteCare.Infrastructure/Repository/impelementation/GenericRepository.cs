@@ -28,7 +28,7 @@ namespace EliteCare.Infrastructure.Repository.impelementation
 
         public async Task<T> GetByIdAsync(int id)
         {
-            var entity = await _context.Set<T>().FindAsync(id);
+            var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x=>x.ID == id);
             return entity;
         }
 
@@ -65,6 +65,7 @@ namespace EliteCare.Infrastructure.Repository.impelementation
         {
             try
             {
+                _context.Entry(entity).State = EntityState.Detached;
                 entity.UpdatedAt = DateTime.Now;
                 _context.Set<T>().Update(entity);
                 return true;
@@ -77,8 +78,17 @@ namespace EliteCare.Infrastructure.Repository.impelementation
 
         public async Task<IEnumerable<T>> GetBySpecification(ISpecification<T> specification)
         {
-            var query = await SpecificationEvaluation<T>.GetQuery(_context.Set<T>().AsQueryable(), specification).ToListAsync();
-            return query ?? new List<T>();
+            var query = SpecificationEvaluation<T>.GetQuery(_context.Set<T>().AsQueryable(), specification);
+            try
+            {
+
+                var data = await query.AsNoTracking().ToListAsync();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                return new List<T>();
+            }
         }
 
 

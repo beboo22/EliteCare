@@ -1,4 +1,6 @@
 using EliteCare.Api.Mapper;
+using EliteCare.Core.Features.Doctors.Commands.Handlers;
+using EliteCare.Core.Features.Doctors.Queries.Handlers;
 using EliteCare.Data.Entities;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
@@ -9,6 +11,7 @@ using EliteCare.Service.Abstract;
 using EliteCare.Service.impelementation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace EliteCare.Api
 {
@@ -31,16 +34,26 @@ namespace EliteCare.Api
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
             builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+            builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
+
             builder.Services.AddAutoMapper(typeof(AtoMapper));
 
             //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DoctorQueryHandler).Assembly));
+            
             builder.Services.AddMediatR(cfg =>
-                                        cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+            {
+                cfg.RegisterServicesFromAssemblies(typeof(DoctorQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(DoctorCommandHandler).Assembly);
+            });
 
 
-
+            builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+            {
+                var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
 
 
@@ -54,30 +67,28 @@ namespace EliteCare.Api
             var context = services.GetRequiredService<ApplicationDbContext>();
             var logger = services.GetRequiredService<ILogger<Program>>();
 
-            try
-            {
-                await context.Database.MigrateAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error occurred while migrating the database.");
-            }
+            //try
+            //{
+            //    await context.Database.MigrateAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogError(ex, "An error occurred while migrating the database.");
+            //}
 
 
 
             // calling the seeding method
 
 
-            try
-            {
-                context.Set<Address>().RemoveRange(context.Set<Address>());
-                context.Set<Patient>().RemoveRange(context.Set<Patient>());
-                await Seeding.SeedDataAsync(context, logger);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "An error occurred while seeding the database.");
-            }
+            //try
+            //{
+            //    await Seeding.SeedDataAsync(context, logger);
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogError(ex, "An error occurred while seeding the database.");
+            //}
 
 
 

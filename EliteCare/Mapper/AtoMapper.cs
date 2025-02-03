@@ -10,12 +10,13 @@ namespace EliteCare.Api.Mapper
     {
         public AtoMapper()
         {
-            CreateMap<DoctorDtos, Doctor>().ForMember(d => d.Address, s => s.MapFrom(o => o.address));
+            CreateMap<AddDoctorDtos, Doctor>().ForMember(d => d.Address, s => s.MapFrom(o => o.address));
+            CreateMap<UpdateDoctorDtos, Doctor>().ForMember(d => d.Address, s => s.MapFrom(o => o.address));
+
 
             CreateMap<AddressDto, Address>();
-
-
             CreateMap<Address, AddressReturnDtos>();
+            CreateMap<UpdateAddressDto, Address>();
 
             CreateMap<Department, DepartmentReturnDtos>();
             CreateMap<Doctor, TemplateDoctor>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))

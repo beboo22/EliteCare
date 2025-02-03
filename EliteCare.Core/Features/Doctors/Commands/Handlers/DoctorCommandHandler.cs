@@ -2,14 +2,16 @@
 using EliteCare.Core.BaseResponse;
 using EliteCare.Core.Features.Doctors.Commands.Models;
 using EliteCare.Data.Entities;
+using EliteCare.Data.enums;
 using EliteCare.Service.Abstract;
 using MediatR;
 
 namespace EliteCare.Core.Features.Doctors.Commands.Handlers
 {
-    internal class DoctorCommandHandler : IRequestHandler<AddDoctorCommand, ApiResultResponse<String>>,
-                                          IRequestHandler<UpdateDoctorCommand, ApiResultResponse<String>>,
-                                          IRequestHandler<DeleteDoctorCommand, ApiResultResponse<String>>
+    public class DoctorCommandHandler : IRequestHandler<AddDoctorCommand, ApiResultResponse<String>>,
+                                        IRequestHandler<UpdateDoctorCommand, ApiResultResponse<String>>,
+                                        IRequestHandler<DeleteDoctorCommand, ApiResultResponse<String>>,
+                                        IRequestHandler<AddSpecialistDoctorCommand, ApiResultResponse<String>>
     {
         IDoctorService _doctorService;
         private readonly IMapper _mapper;
@@ -28,7 +30,7 @@ namespace EliteCare.Core.Features.Doctors.Commands.Handlers
             var flag = await _doctorService.AddDoctorAsync(mappedDoctor, mappedAddress);
             if (!flag)
                 return new ApiResultResponse<string>(400, "Doctor not added");
-       
+
             return new ApiResultResponse<string>(200, "Doctor added successfully");
 
         }
@@ -51,6 +53,11 @@ namespace EliteCare.Core.Features.Doctors.Commands.Handlers
             if (!flag)
                 return new ApiResultResponse<string>(400, "Doctor not deleted");
             return new ApiResultResponse<string>(200, "Doctor deleted successfully");
+        }
+
+        public Task<ApiResultResponse<string>> Handle(AddSpecialistDoctorCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

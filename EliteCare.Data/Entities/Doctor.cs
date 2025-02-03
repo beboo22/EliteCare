@@ -21,10 +21,10 @@ namespace EliteCare.Data.Entities
         public DateTime DateOfBirth { get; set; }
         public decimal Salary { get; set; }
         public int? DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
 
-        public SpecialistDoctorInDepartment SpecialistDoctorInDepartment { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
+        public SpecialistDoctorInDepartment? SpecialistDoctorInDepartment { get; set; }
+        public ICollection<Appointment>? Appointments { get; set; }
 
     }
 }
