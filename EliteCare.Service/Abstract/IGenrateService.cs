@@ -1,4 +1,5 @@
 ﻿using EliteCare.Data.Entities;
+using EliteCare.Data.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Service.Abstract
 {
-    public interface ICachedService <T> where T : BaseEntity
+    public interface IGenrateService
     {
-        Task<bool> AddCachedData(string key, T Requestdata);
-        Task RemoveCachedData(string key);
+        Task<ISpecification<T>> GenerateService<T>(int id) where T : BaseEntity, new();
     }
 }

@@ -34,6 +34,7 @@ namespace EliteCare.Api
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
             builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+            builder.Services.AddScoped(typeof(IGenrateService), typeof(GenrateService));
             builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
 
             builder.Services.AddAutoMapper(typeof(AtoMapper));

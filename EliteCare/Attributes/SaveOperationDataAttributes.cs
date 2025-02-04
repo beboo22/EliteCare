@@ -69,7 +69,19 @@ public class SaveOperationDataAttribute<T> : Attribute, IAsyncAuthorizationFilte
         // Execute the action
 
         var cachedService = context.HttpContext.RequestServices.GetService<ICachedService<T>>();
-        await cachedService.AddCachedData(key, Data);
+        var logger = context.HttpContext.RequestServices.GetService<ILogger>();
+        if (cachedService != null)
+        {
+            bool flag = await cachedService.AddCachedData(key, Data);
+            if(!flag)
+            {
+                logger.LogError("Error while caching data.");
+            }
+        }
+
+
+
+
         var executedContext = await next();
         // Check if the response is successful (200 OK)
         if (executedContext.Result is OkObjectResult okResult)
