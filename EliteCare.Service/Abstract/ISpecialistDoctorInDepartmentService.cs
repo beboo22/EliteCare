@@ -1,4 +1,5 @@
 ﻿using EliteCare.Data.Entities;
+using EliteCare.Service.BaseResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Service.Abstract
 {
-    internal interface ISpecialistDoctorInDepartmentService
+    public interface ISpecialistDoctorInDepartmentService
     {
-        Task<bool> AddSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist);
-
-        Task<IEnumerable<SpecialistDoctorInDepartment>> GetSpecialistDoctorInDepartment(int departmentId);
-        Task<bool> DeleteSpecialistDoctorInDepartment(int doctorId);
-        Task<bool> UpdateSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist);
-
-        Task<IEnumerable<SpecialistDoctorInDepartment>> GetAllSpecialistDoctorInDepartment();
-
+        Task<ApiResponse> AddSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist);
+        Task<ApiResponse> UpdateSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist);
+        Task<ApiResponse> DeleteSpecialistDoctorInDepartment(int doctorId);
+        Task<IEnumerable<SpecialistDoctorInDepartment>> GetAllSpecialistDoctorInDepartment(int Departmentid);
+        Task<IEnumerable<SpecialistDoctorInDepartment>> GetAll();
     }
 }

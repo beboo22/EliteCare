@@ -34,7 +34,7 @@ namespace EliteCare.Service.impelementation
             //}
             else if (typeof(T) == typeof(Nurse))
             {
-                return (ISpecification<T>)new NurseSpecification(null, id);
+                return (ISpecification<T>)new NurseSpecification(null, id,null);
             }
             else
             {

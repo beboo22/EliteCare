@@ -1,7 +1,9 @@
 ﻿using EliteCare.Data.Entities;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
+using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Service.Abstract;
+using EliteCare.Service.BaseResponse;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,68 +13,73 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Service.impelementation
 {
-    internal class SpecialistDoctorInDepartmentService : ISpecialistDoctorInDepartmentService
+    public class SpecialistDoctorInDepartmentService : ISpecialistDoctorInDepartmentService
     {
-        public ApplicationDbContext _context { get; set; }
-        public IUnitOfWork _unitOfWork { get; }
-
-        public SpecialistDoctorInDepartmentService(ApplicationDbContext context, IUnitOfWork unitOfWork)
+        public ISpecialistDoctorInDepartmentRepo specialistRepo { get; set; }
+        public IDoctorRepo doctorRepo { get; set; }
+        IUnitOfWork unitOfWork { get; set; }
+        public SpecialistDoctorInDepartmentService(ISpecialistDoctorInDepartmentRepo specialist, IDoctorRepo doctorRepo, IUnitOfWork unitOfWork)
         {
-            _context = context;
-            _unitOfWork = unitOfWork;
+            this.specialistRepo = specialist;
+            this.doctorRepo = doctorRepo;
+            this.unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> AddSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist)
+        public async Task<ApiResponse> AddSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist)
         {
-            try
+            var Checkdoc = await doctorRepo.IsExist(specialist.DoctorId);
+            if (!Checkdoc) return new ApiResponse(404, "Doctor Don't Existing");
+            
+
+            var deptRepo = unitOfWork.Repo<Department>();
+            var checkDep = await deptRepo.IsExist(specialist.DepartmentId);
+            if (!checkDep) return new ApiResponse(404, "Department Don't Existing");
+
+
+            var checkSpecialist = await specialistRepo.AddspecialistAsync(specialist);
+            if (checkSpecialist)
             {
-                await _context.Set<SpecialistDoctorInDepartment>().AddAsync(specialist);
-                return true;
+                int check = await unitOfWork.Commit();
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
-            catch (Exception ex)
+            return new ApiResponse(500, "Error while Adding");
+        }       
+        
+
+        public async Task<ApiResponse> DeleteSpecialistDoctorInDepartment(int doctorId)
+        {
+            var Checkdoc = await doctorRepo.IsExist(doctorId);
+            if (!Checkdoc) return new ApiResponse(404, "Doctor Don't Existing");
+            
+            var item = await specialistRepo.GetDoctorItem(doctorId);
+
+            var checkSpecialist =  specialistRepo.Deletespecialist(item);
+            if (checkSpecialist)
             {
-                return false;
+                int check = await unitOfWork.Commit();
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
+            return new ApiResponse(500, "Error while Deleting");
         }
 
-        public async Task<IEnumerable<SpecialistDoctorInDepartment>> GetSpecialistDoctorInDepartment(int departmentId)
+        public async Task<ApiResponse> UpdateSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist)
         {
-            var items = await _context.Set<SpecialistDoctorInDepartment>().Where(x => x.DepartmentId == departmentId).ToListAsync();
-            return items;
-        }
-
-        public async Task<bool> DeleteSpecialistDoctorInDepartment(int doctorId)
-        {
-            try
+            var checkSpecialist = specialistRepo.Updatespecialist(specialist);
+            if (checkSpecialist)
             {
-                var item = await _context.Set<SpecialistDoctorInDepartment>().AsNoTracking().FirstOrDefaultAsync(x => x.DoctorId == doctorId);
-                if (item is not null)
-                {
-                    _context.Set<SpecialistDoctorInDepartment>().Remove(item);
-                    if (await _unitOfWork.Commit() > 0)
-                        return true;
-                }
-                return false;
+                int check = await unitOfWork.Commit();
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return new ApiResponse(500, "Error while Adding");
         }
 
-        public async Task<bool> UpdateSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist)
-        {
-            _context.Set<SpecialistDoctorInDepartment>().Update(specialist);
+        public async Task<IEnumerable<SpecialistDoctorInDepartment>> GetAllSpecialistDoctorInDepartment(int Departmentid)
+        => await specialistRepo.GetSpecialistDoctorInDepartment(Departmentid);
 
-            if (await _unitOfWork.Commit() > 0)
-                return true;
-            return false;
-        }
-
-        public async Task<IEnumerable<SpecialistDoctorInDepartment>> GetAllSpecialistDoctorInDepartment()
-        {
-            var items = await _context.Set<SpecialistDoctorInDepartment>().AsNoTracking().ToListAsync();
-            return items ?? new List<SpecialistDoctorInDepartment>();
-        }
+        public async Task<IEnumerable<SpecialistDoctorInDepartment>> GetAll()
+        => await specialistRepo.Getall();
     }
 }

@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Service.specificationCriteria
 {
-    internal class NurseSpecification: Specification<Nurse>
+    public class NurseSpecification : Specification<Nurse>
     {
-        public NurseSpecification(string? Email, int? id) :base(n=>(string.IsNullOrEmpty(Email) || n.Email.ToLower() == Email.ToLower()&&(n.ID == id)))
+        public NurseSpecification(string? Email, int? id, int? RoomId)
+                                    : base(n => (string.IsNullOrEmpty(Email) || n.Email.ToLower() == Email.ToLower())
+                                               && (!id.HasValue || n.ID == id)
+                                                && (!RoomId.HasValue || n.RoomID == RoomId))
         {
-         AddInclude(n => n.Address);
-            AddInclude(n=>n.GovernRoom);
+            AddInclude(n => n.Address);
+            AddInclude(n => n.GovernRoom);
         }
     }
 }

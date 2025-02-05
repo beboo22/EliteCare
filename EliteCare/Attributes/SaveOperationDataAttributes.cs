@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using EliteCare.Core.BaseResponse;
-using EliteCare.Data.Entities;
+﻿using EliteCare.Data.Entities;
 using EliteCare.Service.Abstract;
+using EliteCare.Service.BaseResponse;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 public class SaveOperationDataAttribute<T> : Attribute, IAsyncAuthorizationFilter, IAsyncActionFilter where T : BaseEntity
 {

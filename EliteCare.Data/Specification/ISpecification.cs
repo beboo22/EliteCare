@@ -14,7 +14,12 @@ namespace EliteCare.Data.Specification
 
         public List<Expression<Func<T, object>>> Includes { get; set; }
 
+        public Expression<Func<T, object>> Orderby { get; set; }
+        public Expression<Func<T, object>> OrderbyDecs { get; set; }
 
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPagination { get; set; }
         public void AddInclude(Expression<Func<T, object>> includeExpression);
 
 

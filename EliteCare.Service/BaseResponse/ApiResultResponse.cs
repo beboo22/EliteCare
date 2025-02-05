@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace EliteCare.Core.BaseResponse
+namespace EliteCare.Service.BaseResponse
 {
     public class ApiResultResponse<T> : ApiResponse
     {

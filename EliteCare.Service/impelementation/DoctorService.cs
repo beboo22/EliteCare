@@ -3,11 +3,13 @@ using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Service.Abstract;
+using EliteCare.Service.BaseResponse;
 using EliteCare.Service.specificationCriteria;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,12 +21,14 @@ namespace EliteCare.Service.impelementation
         public IUnitOfWork _unitOfWork;
         public IDoctorRepo DoctorRepo { get; set; }
         ApplicationDbContext _context;
+        IAddressRepo _addressRepo { get; set; }
 
-        public DoctorService(IDoctorRepo doctorRepo, IUnitOfWork unitOfWork, ApplicationDbContext context)
+        public DoctorService(IDoctorRepo doctorRepo, IUnitOfWork unitOfWork, ApplicationDbContext context, IAddressRepo addressRepo)
         {
             DoctorRepo = doctorRepo;
             _unitOfWork = unitOfWork;
             _context = context;
+            _addressRepo = addressRepo;
         }
 
         public async Task<Doctor> GetDoctorByEmail(string email)
@@ -61,7 +65,7 @@ namespace EliteCare.Service.impelementation
 
 
         // crud operations
-        public async Task<bool> AddDoctorAsync(Doctor doctor, Address address)
+        public async Task<ApiResponse> AddDoctorAsync(Doctor doctor, Address address)
         {
             if (doctor.DepartmentId.HasValue)
             {
@@ -70,41 +74,43 @@ namespace EliteCare.Service.impelementation
                 var IsExist = await depart.IsExist(doctor.DepartmentId.Value);
                 if (!IsExist)
                 {
-                    doctor.DepartmentId = null;
+                    new ApiResponse(404, "Department NotFound");
+
                 }
             }
-            _context.Set<Address>().Add(address);
+
+
+            var flag = await _addressRepo.AddAddressAsync(address);
+
+            if (!flag) return new ApiResponse(500, "Error while Adding, Can't Add Address");
             await _unitOfWork.Commit();
+
+
             doctor.AddressId = address.Id;
 
-            bool flag = await DoctorRepo.AddAsync(doctor);
+            flag = await DoctorRepo.AddAsync(doctor);
             if (flag)
             {
                 int check = await _unitOfWork.Commit();
-                flag = check > 0;
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
-            return flag;
+            return new ApiResponse(500, "Error while Adding");
         }
 
-        public async Task<bool> UpdateDoctorAsync(Doctor doctor, Address address)
+        public async Task<ApiResponse> UpdateDoctorAsync(Doctor doctor, Address address)
         {
             var doc = await DoctorRepo.GetByIdAsync(doctor.ID);
             if (doc is null)
             {
-                return false;
+                return new ApiResponse(404, "Doctor Don't Existing");
             }
             if (address is not null)
             {
                 address.Id = doc.AddressId;
-                try
-                {
-                    _context.Set<Address>().Update(address);
+                var  check = _addressRepo.UpdateAddress(address);
+                if (!check) return new ApiResponse(500, "Error While Updating and The Reason is Address");
 
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
                 doctor.Address = address;
                 doctor.AddressId = address.Id;
             }
@@ -113,42 +119,38 @@ namespace EliteCare.Service.impelementation
             if (flag)
             {
                 int check = await _unitOfWork.Commit();
-                flag = check > 0;
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
-            return flag;
+            return new ApiResponse(500, "Error while Update Doctor");
         }
 
-        public async Task<bool> DeleteDoctorAsync(int id)
+        public async Task<ApiResponse> DeleteDoctorAsync(int id)
         {
-            var doctor = await DoctorRepo.GetByIdAsync(id);
-
-            if (doctor is null)
+            var doc = await DoctorRepo.GetByIdAsync(id);
+            if (doc is null)
             {
-                return false;
+                return new ApiResponse(404, "Doctor Don't Existing");
             }
-            if (doctor.AddressId != 0)
+
+            if (doc.AddressId != 0)
             {
-                var add = await _context.Set<Address>().FindAsync(doctor.AddressId);
+                var add = await _addressRepo.GetAddress(doc.AddressId);
                 if (add is not null)
                 {
-                    try
-                    {
-                        _context.Set<Address>().Remove(add);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
+                    var  check = _addressRepo.DeleteAddress(add);
+                    if (!check) return new ApiResponse(500, "Error While delating and Can't Delete Address");
                 }
+                return new ApiResponse(404, "Address Not Found");
             }
-            var flag = DoctorRepo.Delete(doctor);
+            var flag = DoctorRepo.Delete(doc);
             if (flag)
             {
                 int check = await _unitOfWork.Commit();
-                flag = check > 0;
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
             }
-            return flag;
+            return new ApiResponse(500, "Error while Deleting Doctor");
         }
 
         public async Task<IEnumerable<Doctor>> GetAllDoctor()
@@ -161,7 +163,7 @@ namespace EliteCare.Service.impelementation
 
         }
 
-        public async Task<Doctor?> GetDoctorById(int id)
+        public async Task<Doctor?> GetDoctorByIdSpec(int id)
         {
             var DoctorSpec = new DoctorSpecification(null, id, null);
             var doctor = await DoctorRepo.GetByIDSpecification(DoctorSpec);

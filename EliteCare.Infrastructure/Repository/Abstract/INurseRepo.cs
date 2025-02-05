@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.Abstract
 {
-    internal interface INurseRepo : IGenericRepository<Nurse>
+    public interface INurseRepo : IGenericRepository<Nurse>
     {
         Task<Nurse> GetNurseByEmail(string email);
     }

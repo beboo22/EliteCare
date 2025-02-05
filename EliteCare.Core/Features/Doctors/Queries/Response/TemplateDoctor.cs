@@ -16,5 +16,7 @@ namespace EliteCare.Core.Features.Doctors.Queries.Response
         public decimal Salary { get; set; }
         public int DepartmentId { get; set; }
         public DepartmentReturnDtos Department { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

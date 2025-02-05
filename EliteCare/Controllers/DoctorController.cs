@@ -1,10 +1,8 @@
-﻿using EliteCare.Core.BaseResponse;
-using EliteCare.Core.Dtos;
+﻿using EliteCare.Core.Dtos;
 using EliteCare.Core.Features.Doctors.Commands.Models;
 using EliteCare.Core.Features.Doctors.Queries.Models;
 using EliteCare.Core.Mapping;
 using EliteCare.Data.Entities;
-using EliteCare.Service.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,11 +11,6 @@ namespace EliteCare.Api.Controllers
 
     public class DoctorController : BaseController
     {
-        public IDoctorService DocServ { get; set; }
-        public DoctorController(IDoctorService docServ)
-        {
-            DocServ = docServ;
-        }
 
 
         #region Add,Update,Delete
@@ -47,12 +40,16 @@ namespace EliteCare.Api.Controllers
         }
 
 
-        [HttpPost("AddSpecialistDoctor")]
-        public async Task<IActionResult> AddSpecialistDoctor([FromBody] AddSpecialistDoctorDtos doctorDtos)
-        {
-            var responce = await Mediator.Send(new AddSpecialistDoctorCommand(doctorDtos));
-            return Ok(responce);
-        }
+
+
+
+
+        //[HttpPost("AddSpecialistDoctor")]
+        //public async Task<IActionResult> AddSpecialistDoctor([FromBody] AddSpecialistDoctorDtos doctorDtos)
+        //{
+        //    var responce = await Mediator.Send(new AddSpecialistDoctorCommand(doctorDtos));
+        //    return Ok(responce);
+        //}
 
 
 

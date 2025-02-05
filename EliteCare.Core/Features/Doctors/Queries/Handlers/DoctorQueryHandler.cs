@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using EliteCare.Core.BaseResponse;
 using EliteCare.Core.Features.Doctors.Queries.Models;
 using EliteCare.Core.Features.Doctors.Queries.Response;
 using EliteCare.Service.Abstract;
+using EliteCare.Service.BaseResponse;
 using MediatR;
 
 namespace EliteCare.Core.Features.Doctors.Queries.Handlers
 {
     public class DoctorQueryHandler : IRequestHandler<GetAllDoctor, ApiResultResponse<List<TemplateDoctor>>>,
-        IRequestHandler<GetDoctorById, ApiResultResponse<TemplateDoctor>>,
-        IRequestHandler<GetDoctorsForDept, ApiResultResponse<List<TemplateDoctor>>>,
-        IRequestHandler<GetDoctorByEmail,ApiResultResponse<TemplateDoctor>>,
-        IRequestHandler<GetSpecialistDoctorInDept,ApiResultResponse<List<TemplateDoctor>>>
+                                      IRequestHandler<GetDoctorById, ApiResultResponse<TemplateDoctor>>,
+                                      IRequestHandler<GetDoctorsForDept, ApiResultResponse<List<TemplateDoctor>>>,
+                                      IRequestHandler<GetDoctorByEmail,ApiResultResponse<TemplateDoctor>>,
+                                      IRequestHandler<GetSpecialistDoctorInDept,ApiResultResponse<List<TemplateDoctor>>>
     {
         IDoctorService _doctorService;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace EliteCare.Core.Features.Doctors.Queries.Handlers
         }
         public async Task<ApiResultResponse<TemplateDoctor>> Handle(GetDoctorById request, CancellationToken cancellationToken)
         {
-            var item = await _doctorService.GetDoctorById(request.Id);
+            var item = await _doctorService.GetDoctorByIdSpec(request.Id);
 
             if (item is null)
                 return new ApiResultResponse<TemplateDoctor>(404, null, "Doctor not found");
@@ -58,7 +58,7 @@ namespace EliteCare.Core.Features.Doctors.Queries.Handlers
 
         public async Task<ApiResultResponse<TemplateDoctor>> Handle(GetDoctorByEmail request, CancellationToken cancellationToken)
         {
-            var item = await _doctorService.GetDoctorByEmail(request.Email);
+            var item = await _doctorService.GetDoctorByEmailSpec(request.Email);
 
             if (item is null)
                 return new ApiResultResponse<TemplateDoctor>(404, null, "Doctor not found");

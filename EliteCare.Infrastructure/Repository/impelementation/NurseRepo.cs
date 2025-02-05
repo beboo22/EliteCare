@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.impelementation
 {
-    internal class NurseRepo : GenericRepository<Nurse>, INurseRepo
+    public class NurseRepo : GenericRepository<Nurse>, INurseRepo
     {
         public NurseRepo(ApplicationDbContext context) : base(context)
         {

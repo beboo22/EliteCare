@@ -1,10 +1,11 @@
 using EliteCare.Api.Mapper;
 using EliteCare.Core.Features.Doctors.Commands.Handlers;
 using EliteCare.Core.Features.Doctors.Queries.Handlers;
-using EliteCare.Data.Entities;
+using EliteCare.Core.Features.Nurse.Queries.Handlers;
+using EliteCare.Core.Features.Nurses.Commands.Handlers;
+using EliteCare.Core.Features.SpecialistDoctorInDepartment.Commands.Handlers;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
-using EliteCare.Infrastructure.Data.DataSeeding;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.Abstract;
@@ -33,7 +34,13 @@ namespace EliteCare.Api
 
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
+            builder.Services.AddScoped(typeof(INurseRepo), typeof(NurseRepo));
             builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+            builder.Services.AddScoped(typeof(INurseService), typeof(NurseService));
+            builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentService), typeof(SpecialistDoctorInDepartmentService));
+            builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentRepo), typeof(SpecialistDoctorInDepartmentRepo));
+            builder.Services.AddScoped(typeof(IAddressRepo), typeof(AddressRepo));
+
             builder.Services.AddScoped(typeof(IGenrateService), typeof(GenrateService));
             builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
 
@@ -47,6 +54,11 @@ namespace EliteCare.Api
             {
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(NurseQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(NurseCommandHandler).Assembly);
+                //cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentCommandHandler).Assembly);
+                
             });
 
 

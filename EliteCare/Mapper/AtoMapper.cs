@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EliteCare.Core.Dtos;
 using EliteCare.Core.Features.Doctors.Queries.Response;
+using EliteCare.Core.Features.Nurse.Queries.Response;
 using EliteCare.Core.Mapping;
 using EliteCare.Data.Entities;
 
@@ -26,11 +27,13 @@ namespace EliteCare.Api.Mapper
 
 
 
+            CreateMap<Nurse, TemplateNurse>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))
+                                          .ForMember(d => d.GovernRoom, s => s.MapFrom(s => s.GovernRoom))
+                                          .ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
 
+            CreateMap<Room, RoomToReturnDtos>();
 
-
-
-
+            CreateMap<AddNurseDto, Nurse>();
         }
     }
 }

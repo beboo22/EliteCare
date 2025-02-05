@@ -1,16 +1,10 @@
-﻿using EliteCare.Core.BaseResponse;
-using EliteCare.Core.Dtos;
-using EliteCare.Core.Mapping;
+﻿using EliteCare.Core.Dtos;
+using EliteCare.Service.BaseResponse;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EliteCare.Core.Features.Doctors.Commands.Models
 {
-    public class UpdateDoctorCommand: IRequest<ApiResultResponse<String>>
+    public class UpdateDoctorCommand: IRequest<ApiResponse>
     {
         public UpdateDoctorDtos doctorDtos { get; set; }
         public UpdateDoctorCommand(UpdateDoctorDtos _doctorDtos)
