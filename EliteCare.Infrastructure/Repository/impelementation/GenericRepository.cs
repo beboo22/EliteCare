@@ -20,7 +20,7 @@ namespace EliteCare.Infrastructure.Repository.impelementation
             _context = context;
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAllAsync()
         {
             var query = _context.Set<T>().AsQueryable();
             return query;

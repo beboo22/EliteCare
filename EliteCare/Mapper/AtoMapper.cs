@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using EliteCare.Core.Dtos;
+using EliteCare.Core.Features.Departments.Queries.Response;
 using EliteCare.Core.Features.Doctors.Queries.Response;
 using EliteCare.Core.Features.Nurse.Queries.Response;
+using EliteCare.Core.Features.Receptionists.Queries.Response;
+using EliteCare.Core.Features.SpecialistDoctorInDepartment.Queries.Validations;
 using EliteCare.Core.Mapping;
 using EliteCare.Data.Entities;
 
@@ -34,6 +37,21 @@ namespace EliteCare.Api.Mapper
             CreateMap<Room, RoomToReturnDtos>();
 
             CreateMap<AddNurseDto, Nurse>();
+            CreateMap<SpecialistDoctorInDepartment, TemplateSpecialist>().ForMember(d => d.DepartmentName, s => s.MapFrom(o => o.Department.Name))
+                                                                         .ForMember(d => d.DoctorName, s => s.MapFrom(o => $"{o.Doctor.Fname} {o.Doctor.Sname} {o.Doctor.Lname}"));
+
+
+            CreateMap<Department,AddDepartmentDto>();
+            CreateMap<Department,UpdateDepartmentDto>();
+
+            CreateMap<Department, TemplateDepartment>();
+
+            CreateMap<UpdateReceptionistDto, Receptionist>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address));
+            CreateMap<AddReceptionistDto, Receptionist>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address));
+
+            CreateMap<Receptionist, TemplateReceptionist>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))
+                                                           .ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
+
         }
     }
 }

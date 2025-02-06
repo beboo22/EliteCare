@@ -7,18 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\SpecialistDoctorInDepartment\**" />
+    <EmbeddedResource Remove="Features\SpecialistDoctorInDepartment\**" />
+    <None Remove="Features\SpecialistDoctorInDepartment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EliteCare.Service\EliteCare.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Departments\Commands\Validations\" />
     <Folder Include="Features\patients\Commands\Handlers\" />
     <Folder Include="Features\patients\Commands\Models\" />
     <Folder Include="Features\patients\Commands\Validations\" />
     <Folder Include="Features\patients\Queries\Handlers\" />
     <Folder Include="Features\patients\Queries\Models\" />
-    <Folder Include="Features\patients\Queries\Validations\" />
-    <Folder Include="Features\SpecialistDoctorInDepartment\Commands\Validations\" />
-    <Folder Include="Features\SpecialistDoctorInDepartment\Queries\Handlers\" />
+    <Folder Include="Features\patients\Queries\Response\" />
+    <Folder Include="Features\Receptionists\Commands\Validations\" />
   </ItemGroup>
 
   <ItemGroup>

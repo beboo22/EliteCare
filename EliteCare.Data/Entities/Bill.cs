@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EliteCare.Data.enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,11 @@ namespace EliteCare.Data.Entities
         public DateTime BillDate { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
-        public decimal BalanceAmount { get; set; }
-        public string PaymentStatus { get; set; }
-        public string PaymentMethod { get; set; }
         public decimal Discount { get; set; }
         public decimal TaxAmount { get; set; }
+        public decimal BalanceAmount { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public string Notes { get; set; }
     }
 }

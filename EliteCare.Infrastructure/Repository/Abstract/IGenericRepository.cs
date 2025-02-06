@@ -10,7 +10,7 @@ namespace EliteCare.Infrastructure.Repository.Abstract
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAllAsync();
         Task<T> GetByIdAsync(int id);
         Task<bool> AddAsync(T entity);
         bool Update(T entity);

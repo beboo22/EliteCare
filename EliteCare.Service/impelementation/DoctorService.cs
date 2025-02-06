@@ -83,7 +83,8 @@ namespace EliteCare.Service.impelementation
             var flag = await _addressRepo.AddAddressAsync(address);
 
             if (!flag) return new ApiResponse(500, "Error while Adding, Can't Add Address");
-            await _unitOfWork.Commit();
+            int check = await _unitOfWork.Commit();
+            if (check < 0) return new ApiResponse(500, $"Error While Saving Changing AddessID{address.Id}");
 
 
             doctor.AddressId = address.Id;
@@ -91,7 +92,7 @@ namespace EliteCare.Service.impelementation
             flag = await DoctorRepo.AddAsync(doctor);
             if (flag)
             {
-                int check = await _unitOfWork.Commit();
+                check = await _unitOfWork.Commit();
                 if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
                 return new ApiResponse(200);
             }

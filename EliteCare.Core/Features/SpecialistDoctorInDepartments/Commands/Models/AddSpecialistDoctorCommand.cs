@@ -2,7 +2,7 @@
 using EliteCare.Service.BaseResponse;
 using MediatR;
 
-namespace EliteCare.Core.Features.SpecialistDoctorInDepartment.Commands.Models
+namespace EliteCare.Core.Features.SpecialistDoctorInDepartments.Commands.Models
 {
     public class AddSpecialistDoctorCommand : IRequest<ApiResponse>
     {

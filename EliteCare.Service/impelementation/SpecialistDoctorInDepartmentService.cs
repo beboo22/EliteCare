@@ -66,6 +66,13 @@ namespace EliteCare.Service.impelementation
 
         public async Task<ApiResponse> UpdateSpecialistDoctorInDepartment(SpecialistDoctorInDepartment specialist)
         {
+            var checkDocExists = specialistRepo.GetDoctorItem(specialist.DoctorId);
+            if (checkDocExists is null) return new ApiResponse(404, "There's not specialist Doctor by this ID");
+
+            var DepRepo = unitOfWork.Repo<Department>();
+            var checkDepExists = await DepRepo.IsExist(specialist.DepartmentId);
+            if (!checkDepExists) return new ApiResponse(404, "There's not Department by this ID");
+
             var checkSpecialist = specialistRepo.Updatespecialist(specialist);
             if (checkSpecialist)
             {

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EliteCare.Core.Features.SpecialistDoctorInDepartment.Queries.Models
 {
-    public class GetAllspecialist : IRequest<ApiResultResponse<List<TemplateSpecialist>>>
+    public class GetspecialistInAllQuery : IRequest<ApiResponse>
     {
     }
 }

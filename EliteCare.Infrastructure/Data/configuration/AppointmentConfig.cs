@@ -32,7 +32,6 @@ namespace EliteCare.Infrastructure.Data.configuration
                    .HasForeignKey(x => x.RoomID)
                    .HasConstraintName("FK_Appointment_Room")
                    .OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }

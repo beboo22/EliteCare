@@ -29,6 +29,9 @@ namespace EliteCare.Infrastructure.Data.configuration
             builder.Property(p => p.DepartmentId).IsRequired(false).HasColumnType(SQlSyntax.Int);
             builder.Property(p => p.DateOfBirth).IsRequired().HasColumnType(SQlSyntax.DateTime);
             builder.HasOne(x => x.Address).WithMany().HasForeignKey(x => x.AddressId);
+
+            builder.HasMany(d => d.Appointments).WithOne(a => a.Doctor).HasForeignKey(a => a.DoctorID);
+
         }
     }
 }

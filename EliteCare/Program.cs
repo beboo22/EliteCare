@@ -1,11 +1,15 @@
 using EliteCare.Api.Mapper;
+using EliteCare.Core.Features.Departments.Commands.Handlers;
+using EliteCare.Core.Features.Departments.Queries.Handlers;
 using EliteCare.Core.Features.Doctors.Commands.Handlers;
 using EliteCare.Core.Features.Doctors.Queries.Handlers;
 using EliteCare.Core.Features.Nurse.Queries.Handlers;
 using EliteCare.Core.Features.Nurses.Commands.Handlers;
-using EliteCare.Core.Features.SpecialistDoctorInDepartment.Commands.Handlers;
+using EliteCare.Core.Features.Receptionists.Queries.Handlers;
+using EliteCare.Core.Features.SpecialistDoctorInDepartments.Commands.Handlers;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
+using EliteCare.Infrastructure.Data.DataSeeding;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.Abstract;
@@ -36,6 +40,9 @@ namespace EliteCare.Api
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
             builder.Services.AddScoped(typeof(INurseRepo), typeof(NurseRepo));
             builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+            builder.Services.AddScoped(typeof(IReceptionistRepo), typeof(ReceptionistRepo));
+            builder.Services.AddScoped(typeof(IReceptionistService), typeof(ReceptionistService));
+            builder.Services.AddScoped(typeof(IDepartmentService), typeof(DepartmentService));
             builder.Services.AddScoped(typeof(INurseService), typeof(NurseService));
             builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentService), typeof(SpecialistDoctorInDepartmentService));
             builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentRepo), typeof(SpecialistDoctorInDepartmentRepo));
@@ -56,9 +63,12 @@ namespace EliteCare.Api
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorCommandHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(NurseQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(NurseCommandHandler).Assembly);
-                //cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentCommandHandler).Assembly);
-                
+                cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(DepartmentQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(DepartmentCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(ReceptionistQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(ReceptionistQueryHandler).Assembly);
             });
 
 
@@ -80,28 +90,28 @@ namespace EliteCare.Api
             var context = services.GetRequiredService<ApplicationDbContext>();
             var logger = services.GetRequiredService<ILogger<Program>>();
 
-            //try
-            //{
-            //    await context.Database.MigrateAsync();
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogError(ex, "An error occurred while migrating the database.");
-            //}
+            try
+            {
+                await context.Database.MigrateAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while migrating the database.");
+            }
 
 
 
             // calling the seeding method
 
 
-            //try
-            //{
-            //    await Seeding.SeedDataAsync(context, logger);
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogError(ex, "An error occurred while seeding the database.");
-            //}
+            try
+            {
+                await Seeding.SeedDataAsync(context, logger);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
 
 
 

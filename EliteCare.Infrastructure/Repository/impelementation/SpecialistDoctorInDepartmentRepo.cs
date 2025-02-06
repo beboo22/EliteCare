@@ -52,13 +52,13 @@ namespace EliteCare.Infrastructure.Repository.impelementation
 
         public async Task<IEnumerable<SpecialistDoctorInDepartment>> Getall()
         {
-            var items = await _context.Set<SpecialistDoctorInDepartment>().ToListAsync();
+            var items = await _context.Set<SpecialistDoctorInDepartment>().Include(x=>x.Department).Include(x=>x.Doctor).ToListAsync();
             return items;
         }
 
         public async Task<IEnumerable<SpecialistDoctorInDepartment>> GetSpecialistDoctorInDepartment(int id)
         {
-            var items = await _context.Set<SpecialistDoctorInDepartment>().Where(x => x.DepartmentId == id).ToListAsync();
+            var items = await _context.Set<SpecialistDoctorInDepartment>().Include(s=>s.Doctor).Include(s=>s.Department).Where(x => x.DepartmentId == id).ToListAsync();
             return items;
         }
 

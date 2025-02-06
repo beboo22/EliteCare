@@ -27,6 +27,9 @@ namespace EliteCare.Infrastructure.Data.configuration
             builder.Property(p => p.EmergencyContact).HasMaxLength(int.MaxValue).HasColumnType(SQlSyntax.NVarchar);
             builder.Property(p => p.MedicalHistory).HasMaxLength(int.MaxValue).HasColumnType(SQlSyntax.NVarchar);
             builder.Property(p => p.DateOfBirth).IsRequired().HasColumnType(SQlSyntax.DateTime);
+
+            builder.HasMany(d => d.Appointments).WithOne(a => a.Patient).HasForeignKey(a => a.PatientID);
+
         }
     }
 }

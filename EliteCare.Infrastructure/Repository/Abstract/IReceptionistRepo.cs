@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.Abstract
 {
-    internal interface IReceptionistRepo : IGenericRepository<Receptionist>
+    public interface IReceptionistRepo : IGenericRepository<Receptionist>
     {
         Task<Receptionist> GetReceptionistByEmail(string email);
         Task<IEnumerable<Appointment>> GetAppointmentsForReceptionist(int receptionistId);

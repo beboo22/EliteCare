@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.impelementation
 {
-    internal class ReceptionistRepo : GenericRepository<Receptionist>, IReceptionistRepo
+    public class ReceptionistRepo : GenericRepository<Receptionist>, IReceptionistRepo
     {
         public ReceptionistRepo(ApplicationDbContext context) : base(context)
         {

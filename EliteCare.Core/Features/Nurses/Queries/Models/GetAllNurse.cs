@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EliteCare.Core.Features.Nurse.Queries.Models
 {
-    public class GetAllNurse:IRequest<ApiResultResponse<List<TemplateNurse>>>
+    public class GetAllNurse:IRequest<ApiResponse>
     {
     }
 }

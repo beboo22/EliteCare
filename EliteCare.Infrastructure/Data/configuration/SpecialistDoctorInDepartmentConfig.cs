@@ -13,6 +13,7 @@ namespace EliteCare.Infrastructure.Data.configuration
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<SpecialistDoctorInDepartment> builder)
         {
             builder.HasKey(x =>  x.DoctorId);
+            builder.Property(s=>s.DoctorId).IsRequired().ValueGeneratedNever();
             builder.HasOne(x => x.Doctor)
                 .WithOne(x => x.SpecialistDoctorInDepartment)
                 .HasForeignKey<SpecialistDoctorInDepartment>(x => x.DoctorId)
