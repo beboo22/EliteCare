@@ -16,7 +16,6 @@ namespace EliteCare.Service.impelementation
 {
     public class GenrateService : IGenrateService
     {
-        private Hashtable hashtable;
         public async Task<ISpecification<T>> GenerateService<T>(int id) where T : BaseEntity, new()
         {
 
@@ -28,10 +27,6 @@ namespace EliteCare.Service.impelementation
             {
                 return (ISpecification<T>)new PatientSpecification(null, id);
             }
-            //else if(typeof(T) == typeof(Appointment))
-            //{
-            //    return new AppointmentService(DoctorRepo, _unitOfWork, _context);
-            //}
             else if (typeof(T) == typeof(Nurse))
             {
                 return (ISpecification<T>)new NurseSpecification(null, id,null);

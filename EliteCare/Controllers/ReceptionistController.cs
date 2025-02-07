@@ -1,6 +1,7 @@
 ﻿using EliteCare.Core.Dtos;
 using EliteCare.Core.Features.Doctors.Commands.Models;
 using EliteCare.Core.Features.Doctors.Queries.Models;
+using EliteCare.Core.Features.patients.Queries.Models;
 using EliteCare.Core.Features.Receptionists.Commands.Models;
 using EliteCare.Core.Features.Receptionists.Queries.Models;
 using EliteCare.Core.Mapping;
@@ -38,22 +39,6 @@ namespace EliteCare.Api.Controllers
             var responce = await Mediator.Send(new DeleteReceptionistsCommand(recepID));
             return Ok(responce);
         }
-
-
-
-
-
-
-        //[HttpPost("AddSpecialistDoctor")]
-        //public async Task<IActionResult> AddSpecialistDoctor([FromBody] AddSpecialistDoctorDtos doctorDtos)
-        //{
-        //    var responce = await Mediator.Send(new AddSpecialistDoctorCommand(doctorDtos));
-        //    return Ok(responce);
-        //}
-
-
-
-
         #endregion
 
 
@@ -61,7 +46,7 @@ namespace EliteCare.Api.Controllers
         [HttpGet("GetAllReceptionist")]
         public async Task<IActionResult> GetAllReceptionist()
         {
-            var respnse = await Mediator.Send(new GetAllReceptionistQuery());
+            var respnse = await Mediator.Send(new GetAllPatientQuery());
             return Ok(respnse);
         }
         [HttpGet("GetReceptionistById/{id:int}")]

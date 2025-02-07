@@ -32,6 +32,17 @@ namespace EliteCare.Infrastructure.Data.configuration
                    .HasForeignKey(x => x.RoomID)
                    .HasConstraintName("FK_Appointment_Room")
                    .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(a => a.prescription)
+                   .WithOne(p => p.Appointment)
+                   .HasForeignKey<Appointment>(p => p.PrescriptionID)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(a => a.Bill)
+                   .WithOne(p => p.Appointment)
+                   .HasForeignKey<Appointment>(p => p.BillID) // FK on Appointment
+                   .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

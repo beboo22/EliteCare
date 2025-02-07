@@ -50,6 +50,33 @@ namespace EliteCare.Service.impelementation
             return new ApiResponse(500, "Error while Adding");
         }
 
+        public async Task<ApiResponse> UpdateReceptionistAsync(Receptionist Receptionist, Address address)
+        {
+            var recept = await receptionistRepo.GetByIdAsync(Receptionist.ID);
+
+            if (recept is null)
+            {
+                return new ApiResponse(404, "Receptionist Don't Existing");
+            }
+            if (address is not null)
+            {
+                address.Id = Receptionist.AddressId;
+                var check = _addressRepo.UpdateAddress(address);
+                if (!check) return new ApiResponse(500, "Error While Updating and The Reason is Address");
+
+                Receptionist.Address = address;
+                Receptionist.AddressId = address.Id;
+            }
+            
+            bool flag = receptionistRepo.Update(Receptionist);
+            if (flag)
+            {
+                int check = await unitOfWork.Commit();
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
+            }
+            return new ApiResponse(500, "Error while Update Receptionist");
+        }
         public async Task<ApiResponse> DeleteReceptionistAsync(int id)
         {
             var recep = await receptionistRepo.GetByIdAsync(id);
@@ -102,32 +129,18 @@ namespace EliteCare.Service.impelementation
             return Recepist;
         }
 
-        public async Task<ApiResponse> UpdateReceptionistAsync(Receptionist Receptionist, Address address)
+        public async Task<IEnumerable<Appointment>?> GetAppointmentsForReceptionist(int receptionistId)
         {
-            var recept = await receptionistRepo.GetByIdAsync(Receptionist.ID);
+            var receptionistExist = await receptionistRepo.IsExist(receptionistId);
 
-            if (recept is null)
-            {
-                return new ApiResponse(404, "Receptionisttor Don't Existing");
-            }
-            if (address is not null)
-            {
-                address.Id = Receptionist.AddressId;
-                var check = _addressRepo.UpdateAddress(address);
-                if (!check) return new ApiResponse(500, "Error While Updating and The Reason is Address");
+            if(!receptionistExist) 
+                return null;
 
-                recept.Address = address;
-                recept.AddressId = address.Id;
-            }
 
-            bool flag = receptionistRepo.Update(recept);
-            if (flag)
-            {
-                int check = await unitOfWork.Commit();
-                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
-                return new ApiResponse(200);
-            }
-            return new ApiResponse(500, "Error while Update Receptionisttor");
+
+            var appointments = await receptionistRepo.GetAppointmentsForReceptionist(receptionistId);
+
+            return appointments;
         }
     }
 }

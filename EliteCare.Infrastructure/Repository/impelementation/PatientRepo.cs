@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.impelementation
 {
-    internal class PatientRepo : GenericRepository<Patient>, IPatientRepo
+    public class PatientRepo : GenericRepository<Patient>, IPatientRepo
     {
         public PatientRepo(ApplicationDbContext context) : base(context)
         {

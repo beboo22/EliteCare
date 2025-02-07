@@ -17,14 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Appointments\Commands\Validations\" />
     <Folder Include="Features\Departments\Commands\Validations\" />
-    <Folder Include="Features\patients\Commands\Handlers\" />
-    <Folder Include="Features\patients\Commands\Models\" />
     <Folder Include="Features\patients\Commands\Validations\" />
-    <Folder Include="Features\patients\Queries\Handlers\" />
-    <Folder Include="Features\patients\Queries\Models\" />
     <Folder Include="Features\patients\Queries\Response\" />
     <Folder Include="Features\Receptionists\Commands\Validations\" />
+    <Folder Include="Features\test\Commands\Handlers\" />
+    <Folder Include="Features\test\Commands\Models\" />
+    <Folder Include="Features\test\Commands\Validations\" />
+    <Folder Include="Features\test\Queries\Handlers\" />
+    <Folder Include="Features\test\Queries\Models\" />
+    <Folder Include="Features\test\Queries\Response\" />
   </ItemGroup>
 
   <ItemGroup>

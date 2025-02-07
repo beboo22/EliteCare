@@ -32,6 +32,7 @@ namespace EliteCare.Service.impelementation
 
         public ApiResponse UpdateDepartmentAsync(Department Department)
         {
+            Department.UpdatedAt = DateTime.Now;
             var check = repo.Update(Department);
             return check is true?new ApiResponse(200): new ApiResponse(500,"Can't Update Department");
         }

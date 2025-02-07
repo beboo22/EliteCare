@@ -1,6 +1,7 @@
 ﻿using EliteCare.Data.enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,10 @@ namespace EliteCare.Data.Entities
     public class Bill:BaseEntity
     {
         public int AppointmentId { get; set; }
+        [ForeignKey(nameof(AppointmentId))]
         public Appointment Appointment { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
-        public DateTime BillDate { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal Discount { get; set; }

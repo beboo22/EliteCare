@@ -27,6 +27,10 @@ namespace EliteCare.Infrastructure.Data.configuration
             builder.Property(p => p.PaymentMethod).IsRequired().HasConversion(s => s.ToString(),
                                                                        d => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), d));
 
+            //builder.HasOne(p => p.Appointment)
+            //       .WithOne(a => a.Bill)
+            //       .HasForeignKey<Bill>(p => p.AppointmentId) // FK on Bill
+            //       .OnDelete(DeleteBehavior.NoAction);
 
 
 

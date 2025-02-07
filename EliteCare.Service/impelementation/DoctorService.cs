@@ -115,7 +115,7 @@ namespace EliteCare.Service.impelementation
                 doctor.Address = address;
                 doctor.AddressId = address.Id;
             }
-
+            doctor.UpdatedAt = DateTime.UtcNow;
             bool flag = DoctorRepo.Update(doctor);
             if (flag)
             {

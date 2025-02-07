@@ -63,6 +63,9 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<int>("BillID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -76,6 +79,9 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<int>("PatientID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrescriptionID")
                         .HasColumnType("int");
 
                     b.Property<int>("ReceptionistID")
@@ -92,9 +98,15 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("BillID")
+                        .IsUnique();
+
                     b.HasIndex("DoctorID");
 
                     b.HasIndex("PatientID");
+
+                    b.HasIndex("PrescriptionID")
+                        .IsUnique();
 
                     b.HasIndex("ReceptionistID");
 
@@ -160,8 +172,6 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("AppointmentId");
 
                     b.HasIndex("PatientId");
 
@@ -687,6 +697,12 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EliteCare.Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("EliteCare.Data.Entities.Bill", "Bill")
+                        .WithOne("Appointment")
+                        .HasForeignKey("EliteCare.Data.Entities.Appointment", "BillID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("EliteCare.Data.Entities.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorID")
@@ -700,6 +716,12 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Appointment_Patient");
+
+                    b.HasOne("EliteCare.Data.Entities.Prescription", "prescription")
+                        .WithOne("Appointment")
+                        .HasForeignKey("EliteCare.Data.Entities.Appointment", "PrescriptionID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("EliteCare.Data.Entities.Receptionist", "Receptionist")
                         .WithMany("Appointments")
@@ -715,6 +737,8 @@ namespace EliteCare.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Appointment_Room");
 
+                    b.Navigation("Bill");
+
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
@@ -722,23 +746,17 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.Navigation("Receptionist");
 
                     b.Navigation("Room");
+
+                    b.Navigation("prescription");
                 });
 
             modelBuilder.Entity("EliteCare.Data.Entities.Bill", b =>
                 {
-                    b.HasOne("EliteCare.Data.Entities.Appointment", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EliteCare.Data.Entities.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
 
                     b.Navigation("Patient");
                 });
@@ -873,6 +891,12 @@ namespace EliteCare.Infrastructure.Data.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("EliteCare.Data.Entities.Bill", b =>
+                {
+                    b.Navigation("Appointment")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EliteCare.Data.Entities.Department", b =>
                 {
                     b.Navigation("SpecialistDoctorInDepartment")
@@ -893,6 +917,9 @@ namespace EliteCare.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EliteCare.Data.Entities.Prescription", b =>
                 {
+                    b.Navigation("Appointment")
+                        .IsRequired();
+
                     b.Navigation("PrescriptionItems");
                 });
 

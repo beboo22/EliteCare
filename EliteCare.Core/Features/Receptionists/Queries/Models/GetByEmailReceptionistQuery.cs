@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Core.Features.Receptionists.Queries.Models
 {
-    public class GetByEmailReceptionistQuery:IRequest<ApiResponse>
+    public class GetByEmailReceptionistQuery : IRequest<ApiResponse>
     {
         public string email { get; set; }
 

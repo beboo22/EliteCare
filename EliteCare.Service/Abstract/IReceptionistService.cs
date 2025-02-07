@@ -20,6 +20,7 @@ namespace EliteCare.Service.Abstract
         Task<Receptionist> GetReceptionistByIdSpec(int id);
         Task<Receptionist> GetReceptionistByEmail(string email);
 
+        Task<IEnumerable<Appointment>?> GetAppointmentsForReceptionist(int receptionistId);
 
     }
 }

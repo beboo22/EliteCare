@@ -18,6 +18,9 @@ namespace EliteCare.Api.Mapper
             CreateMap<UpdateDoctorDtos, Doctor>().ForMember(d => d.Address, s => s.MapFrom(o => o.address));
 
 
+
+
+
             CreateMap<AddressDto, Address>();
             CreateMap<Address, AddressReturnDtos>();
             CreateMap<UpdateAddressDto, Address>();
@@ -41,8 +44,8 @@ namespace EliteCare.Api.Mapper
                                                                          .ForMember(d => d.DoctorName, s => s.MapFrom(o => $"{o.Doctor.Fname} {o.Doctor.Sname} {o.Doctor.Lname}"));
 
 
-            CreateMap<Department,AddDepartmentDto>();
-            CreateMap<Department,UpdateDepartmentDto>();
+            CreateMap<Department, AddDepartmentDto>();
+            CreateMap<Department, UpdateDepartmentDto>();
 
             CreateMap<Department, TemplateDepartment>();
 
@@ -52,6 +55,17 @@ namespace EliteCare.Api.Mapper
             CreateMap<Receptionist, TemplateReceptionist>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))
                                                            .ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
 
+
+            CreateMap<Appointment, AppointmentReturnDto>();
+
+            CreateMap<AddAppointmentDtos, Appointment>();
+
+            CreateMap<Prescription, PrescriptionReturnToAppointmentDto>();
+            CreateMap<Receptionist, ReceptionistReturnToAppointmentDtos>();                                                                         
+            CreateMap<Patient, PatientReturnToAppointmentDtos>().ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
+            CreateMap<Doctor, DoctorReturnToAppointmentDtos>().ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"))
+                                                               .ForMember(d => d.DepartmentName, S => S.MapFrom(o => o.Department != null ? o.Department.Name : ""));
+            CreateMap<Bill,BillReturnDto>();
         }
     }
 }

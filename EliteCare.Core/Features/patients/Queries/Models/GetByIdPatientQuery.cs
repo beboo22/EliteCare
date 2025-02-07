@@ -1,0 +1,20 @@
+﻿using EliteCare.Service.BaseResponse;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EliteCare.Core.Features.patients.Queries.Models
+{
+    public class GetByIdPatientQuery: IRequest<ApiResponse>
+    {
+        public int id { get; set; }
+
+        public GetByIdPatientQuery(int id)
+        {
+            this.id = id;
+        }
+    }
+}

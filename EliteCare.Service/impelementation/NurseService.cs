@@ -55,6 +55,29 @@ namespace EliteCare.Service.impelementation
 
         }
 
+        public async Task<ApiResponse> UpdateNurseAsync(Nurse nurse, Address address)
+        {
+            var nursecheck = await _nurseRepo.GetByIdAsync(nurse.ID);
+            if (nursecheck is null)
+            {
+                return new ApiResponse(404, "Nurse Don't Existing");
+            }
+            address.Id = nursecheck.AddressId;
+            var flag = _addressRepo.UpdateAddress(address);
+            if (!flag) return new ApiResponse(500, "Error While Updating and The Reason is Address");
+
+            nurse.Address = address;
+            nurse.UpdatedAt = DateTime.Now;
+            flag = _nurseRepo.Update(nurse);
+            if (flag)
+            {
+                int check = await _unitOfWork.Commit();
+                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
+                return new ApiResponse(200);
+            }
+            return new ApiResponse(500, "Error While updating Nurse");
+
+        }
         public async Task<ApiResponse> DeleteNurseAsync(int id)
         {
             var nures = await _nurseRepo.GetByIdAsync(id);
@@ -126,27 +149,5 @@ namespace EliteCare.Service.impelementation
             return nurse;
         }
 
-        public async Task<ApiResponse> UpdateNurseAsync(Nurse nurse, Address address)
-        {
-            var nursecheck = await _nurseRepo.GetByIdAsync(nurse.ID);
-            if (nursecheck is null)
-            {
-                return new ApiResponse(404, "Nurse Don't Existing");
-            }
-            address.Id = nursecheck.AddressId;
-            var flag = _addressRepo.UpdateAddress(address);
-            if (!flag) return new ApiResponse(500, "Error While Updating and The Reason is Address");
-
-            nurse.Address = address;
-            flag = _nurseRepo.Update(nurse);
-            if (flag)
-            {
-                int check = await _unitOfWork.Commit();
-                if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
-                return new ApiResponse(200);
-            }
-            return new ApiResponse(500, "Error While updating Nurse");
-
-        }
     }
 }

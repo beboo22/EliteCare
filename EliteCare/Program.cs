@@ -1,10 +1,14 @@
 using EliteCare.Api.Mapper;
+using EliteCare.Core.Features.Appointments.Commands.Handlers;
+using EliteCare.Core.Features.Appointments.Queries.Handlers;
 using EliteCare.Core.Features.Departments.Commands.Handlers;
 using EliteCare.Core.Features.Departments.Queries.Handlers;
 using EliteCare.Core.Features.Doctors.Commands.Handlers;
 using EliteCare.Core.Features.Doctors.Queries.Handlers;
 using EliteCare.Core.Features.Nurse.Queries.Handlers;
 using EliteCare.Core.Features.Nurses.Commands.Handlers;
+using EliteCare.Core.Features.patients.Queries.Handlers;
+using EliteCare.Core.Features.Receptionists.Commands.Handlers;
 using EliteCare.Core.Features.Receptionists.Queries.Handlers;
 using EliteCare.Core.Features.SpecialistDoctorInDepartments.Commands.Handlers;
 using EliteCare.Infrastructure;
@@ -35,40 +39,59 @@ namespace EliteCare.Api
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
+            builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
+
+            builder.Services.AddScoped(typeof(INurseRepo), typeof(NurseRepo));
+            builder.Services.AddScoped(typeof(INurseService), typeof(NurseService));
+
+
+            builder.Services.AddScoped(typeof(IDepartmentService), typeof(DepartmentService));
+
+            builder.Services.AddScoped(typeof(IReceptionistService), typeof(ReceptionistService));
+            builder.Services.AddScoped(typeof(IReceptionistRepo), typeof(ReceptionistRepo));
+            
+            
+            builder.Services.AddScoped(typeof(IPatientRepo), typeof(PatientRepo));
+            builder.Services.AddScoped(typeof(IPatientService), typeof(PatientService));
+            
+            builder.Services.AddScoped(typeof(IAppointmentService), typeof(AppointmentService));
 
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
-            builder.Services.AddScoped(typeof(INurseRepo), typeof(NurseRepo));
-            builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
-            builder.Services.AddScoped(typeof(IReceptionistRepo), typeof(ReceptionistRepo));
-            builder.Services.AddScoped(typeof(IReceptionistService), typeof(ReceptionistService));
-            builder.Services.AddScoped(typeof(IDepartmentService), typeof(DepartmentService));
-            builder.Services.AddScoped(typeof(INurseService), typeof(NurseService));
+
             builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentService), typeof(SpecialistDoctorInDepartmentService));
             builder.Services.AddScoped(typeof(ISpecialistDoctorInDepartmentRepo), typeof(SpecialistDoctorInDepartmentRepo));
+
             builder.Services.AddScoped(typeof(IAddressRepo), typeof(AddressRepo));
 
             builder.Services.AddScoped(typeof(IGenrateService), typeof(GenrateService));
             builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
-
             builder.Services.AddAutoMapper(typeof(AtoMapper));
 
-            //builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DoctorQueryHandler).Assembly));
             
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorCommandHandler).Assembly);
+
                 cfg.RegisterServicesFromAssemblies(typeof(NurseQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(NurseCommandHandler).Assembly);
+
                 cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentCommandHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(SpecialistDoctorInDepartmentCommandHandler).Assembly);
+
                 cfg.RegisterServicesFromAssemblies(typeof(DepartmentQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(DepartmentCommandHandler).Assembly);
+
+                cfg.RegisterServicesFromAssemblies(typeof(PatientQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(PatientQueryHandler).Assembly);
+
+                cfg.RegisterServicesFromAssemblies(typeof(AppointmentCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(AppointmentQueryHandler).Assembly);
+
                 cfg.RegisterServicesFromAssemblies(typeof(ReceptionistQueryHandler).Assembly);
-                cfg.RegisterServicesFromAssemblies(typeof(ReceptionistQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(ReceptionistCommandHandler).Assembly);
+
             });
 
 
@@ -92,7 +115,7 @@ namespace EliteCare.Api
 
             try
             {
-                await context.Database.MigrateAsync();
+                //await context.Database.MigrateAsync();
             }
             catch (Exception ex)
             {
@@ -106,7 +129,7 @@ namespace EliteCare.Api
 
             try
             {
-                await Seeding.SeedDataAsync(context, logger);
+                //await Seeding.SeedDataAsync(context, logger);
             }
             catch (Exception ex)
             {

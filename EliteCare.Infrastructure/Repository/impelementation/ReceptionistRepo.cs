@@ -22,22 +22,22 @@ namespace EliteCare.Infrastructure.Repository.impelementation
         }
         public async Task<IEnumerable<Appointment>> GetAppointmentsForReceptionist(int receptionistId)
         {
-            var appointments = await _context.Appointments.Where(x => x.ReceptionistID == receptionistId)
+            var appointments = await _context.Appointments.Where(x => x.ReceptionistID == receptionistId).Include(x => x.Receptionist).Include(x=>x.Bill)
                                                           .ToListAsync();
 
 
-            var appointmentstoo = await _context.Receptionists.Where(x => x.ID == receptionistId)
-                                                               .SelectMany(x => x.Appointments)
-                                                               .ToListAsync();
+            //var appointmentstoo = await _context.Receptionists.Where(x => x.ID == receptionistId)
+            //                                                   .SelectMany(x => x.Appointments)
+            //                                                   .ToListAsync();
 
-            var appointmentstoothree = await (from a in _context.Appointments
-                                              join r in _context.Receptionists on a.ReceptionistID equals r.ID
-                                              where r.ID == receptionistId
-                                              select a).ToListAsync();
+            //var appointmentstoothree = await (from a in _context.Appointments
+            //                                  join r in _context.Receptionists on a.ReceptionistID equals r.ID
+            //                                  where r.ID == receptionistId
+            //                                  select a).ToListAsync();
 
 
 
-            return appointmentstoo;
+            return appointments;
         }
     }
 }
