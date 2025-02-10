@@ -20,16 +20,18 @@ namespace EliteCare.Infrastructure.Repository.impelementation
         public async Task<IEnumerable<Appointment>> GetAppointmentsForPatient(int patientId)
         {
             var appointments = await _context.Appointments.Where(x => x.PatientID == patientId)
+                                                          //.Include(x=>x.Doctor)
+                                                          //.Include(x=>x.prescription)
                                                           .ToListAsync();
 
             var appointmentstoo = await _context.Patients.Where(x => x.ID == patientId)
                                                          .SelectMany(x => x.Appointments)
                                                          .ToListAsync();
 
-            var appointmentstoothree = await (from a in _context.Appointments
-                                              join r in _context.Receptionists on a.ReceptionistID equals r.ID
-                                              where r.ID == patientId
-                                              select a).ToListAsync();
+            var appointmentsthree = await (from a in _context.Appointments
+                                              join r in _context.Patients on a.PatientID equals patientId
+                                              //where r.ID == patientId
+                                           select a).ToListAsync();
 
             return appointmentstoo;
         }

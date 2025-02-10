@@ -44,8 +44,8 @@ namespace EliteCare.Core.Features.patients.Commands.Handlers
 
         public Task<ApiResponse> Handle(AddPatientCommand request, CancellationToken cancellationToken)
         {
-            var mappedRece = mapper.Map<Patient>(request.receptionistDto);
-            var mappedAddress = mapper.Map<Address>(request.receptionistDto.Address);
+            var mappedRece = mapper.Map<Patient>(request.patientDto);
+            var mappedAddress = mapper.Map<Address>(request.patientDto.Address);
 
             var res = service.AddPatientAsync(mappedRece, mappedAddress);
             return res;

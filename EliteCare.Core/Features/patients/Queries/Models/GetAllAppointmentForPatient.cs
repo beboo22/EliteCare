@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Core.Features.patients.Queries.Models
 {
-    public class GetAllPatientForReceptionist : IRequest<ApiResponse>
+    public class GetAllAppointmentForPatient : IRequest<ApiResponse>
     {
         public int Id { get; set; }
 
-        public GetAllPatientForReceptionist(int id)
+        public GetAllAppointmentForPatient(int id)
         {
             Id = id;
         }

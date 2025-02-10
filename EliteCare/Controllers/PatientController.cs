@@ -14,7 +14,6 @@ namespace EliteCare.Api.Controllers
         //[SaveOperationData<Doctor>]
         public async Task<IActionResult> AddPatient([FromBody] AddPatientDto PatientDto)
         {
-            //return Ok(new ApiResultResponse<string>(200, "Doctor added successfully"));
 
             var responce = await Mediator.Send(new AddPatientCommand(PatientDto));
             return Ok(responce);
@@ -44,6 +43,7 @@ namespace EliteCare.Api.Controllers
             var respnse = await Mediator.Send(new GetAllPatientQuery());
             return Ok(respnse);
         }
+
         [HttpGet("GetPatientById")]
         public async Task<IActionResult> GetPatientById([FromQuery]int id)
         {
@@ -51,14 +51,20 @@ namespace EliteCare.Api.Controllers
             return Ok(respnse);
         }
 
-
-        [HttpGet("GetPatientByEmail/{email}")]
+        [HttpGet("GetPatientByEmail")]
         public async Task<IActionResult> GetPatientByEmail([FromQuery][EmailAddress] string email)
         {
             var respnse = await Mediator.Send(new GetByEmailPatientQuery(email));
             return Ok(respnse);
         }
 
+
+        [HttpGet("GetAllAppointmentForPatient")]
+        public async Task<IActionResult> GetAppointmentForPatient([FromQuery]int id)
+        {
+            var respnse = await Mediator.Send(new GetAllAppointmentForPatient(id));
+            return Ok(respnse);
+        }
 
 
     }

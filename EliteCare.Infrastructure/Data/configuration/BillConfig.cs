@@ -15,6 +15,7 @@ namespace EliteCare.Infrastructure.Data.configuration
         public override void Configure(EntityTypeBuilder<Bill> builder)
         {
             base.Configure(builder);
+            //builder.Property(x=>x.ID).IsRequired().ValueGeneratedNever();
             builder.Property(x => x.TaxAmount).IsRequired().HasColumnType(SQlSyntax.Decimal);
             builder.Property(x => x.PaidAmount).IsRequired().HasColumnType(SQlSyntax.Decimal);
             builder.Property(x => x.BalanceAmount).IsRequired().HasColumnType(SQlSyntax.Decimal);

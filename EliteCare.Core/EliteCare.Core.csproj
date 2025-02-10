@@ -18,9 +18,12 @@
 
   <ItemGroup>
     <Folder Include="Features\Appointments\Commands\Validations\" />
+    <Folder Include="Features\Bills\Commands\Validations\" />
+    <Folder Include="Features\Bills\Queries\Handlers\" />
+    <Folder Include="Features\Bills\Queries\Models\" />
+    <Folder Include="Features\Bills\Queries\Response\" />
     <Folder Include="Features\Departments\Commands\Validations\" />
     <Folder Include="Features\patients\Commands\Validations\" />
-    <Folder Include="Features\patients\Queries\Response\" />
     <Folder Include="Features\Receptionists\Commands\Validations\" />
     <Folder Include="Features\test\Commands\Handlers\" />
     <Folder Include="Features\test\Commands\Models\" />

@@ -16,6 +16,7 @@ namespace EliteCare.Data.Entities
         public int? RoomID { get; set; }
         public int? PrescriptionID { get; set; }
         public int? BillID { get; set; }
+        public Status Status { get; set; }
 
         //[ForeignKey("DoctorID")]
         public Doctor Doctor { get; set; }
@@ -30,6 +31,5 @@ namespace EliteCare.Data.Entities
 
         [ForeignKey(nameof(BillID))]
         public Bill? Bill { get; set; }
-        public Status Status { get; set; }
     }
 }

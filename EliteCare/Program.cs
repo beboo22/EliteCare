@@ -1,6 +1,7 @@
 using EliteCare.Api.Mapper;
 using EliteCare.Core.Features.Appointments.Commands.Handlers;
 using EliteCare.Core.Features.Appointments.Queries.Handlers;
+using EliteCare.Core.Features.Bills.Commands.Handlers;
 using EliteCare.Core.Features.Departments.Commands.Handlers;
 using EliteCare.Core.Features.Departments.Queries.Handlers;
 using EliteCare.Core.Features.Doctors.Commands.Handlers;
@@ -21,6 +22,7 @@ using EliteCare.Service.impelementation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using X.Paymob.CashIn;
 
 namespace EliteCare.Api
 {
@@ -66,6 +68,22 @@ namespace EliteCare.Api
 
             builder.Services.AddScoped(typeof(IGenrateService), typeof(GenrateService));
             builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
+            
+            
+            builder.Services.AddScoped(typeof(IBookingService), typeof(BookingService));
+            builder.Services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
+            
+            
+            
+            builder.Services.AddScoped(typeof(IBillRepo), typeof(BillRepo));
+
+
+
+
+
+
+
+
             builder.Services.AddAutoMapper(typeof(AtoMapper));
 
             
@@ -92,6 +110,9 @@ namespace EliteCare.Api
                 cfg.RegisterServicesFromAssemblies(typeof(ReceptionistQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(ReceptionistCommandHandler).Assembly);
 
+                cfg.RegisterServicesFromAssemblies(typeof(BillsCommanHandler).Assembly);
+                               
+
             });
 
 
@@ -100,6 +121,18 @@ namespace EliteCare.Api
                 var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
                 return ConnectionMultiplexer.Connect(configuration);
             });
+
+
+
+            builder.Services.AddPaymobCashIn(config =>
+            {
+                config.ApiKey = builder.Configuration["Paymob:ApiKey"];
+                config.Hmac = builder.Configuration["Paymob:Hmac"];
+                //config.IframeBaseUrl = builder.Configuration["Paymob:IframeBaseUrl"];
+            });
+
+
+
 
 
 

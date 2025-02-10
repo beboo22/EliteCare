@@ -3,6 +3,7 @@ using EliteCare.Core.Dtos;
 using EliteCare.Core.Features.Departments.Queries.Response;
 using EliteCare.Core.Features.Doctors.Queries.Response;
 using EliteCare.Core.Features.Nurse.Queries.Response;
+using EliteCare.Core.Features.patients.Queries.Response;
 using EliteCare.Core.Features.Receptionists.Queries.Response;
 using EliteCare.Core.Features.SpecialistDoctorInDepartment.Queries.Validations;
 using EliteCare.Core.Mapping;
@@ -54,6 +55,10 @@ namespace EliteCare.Api.Mapper
 
             CreateMap<Receptionist, TemplateReceptionist>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))
                                                            .ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
+            
+            
+            CreateMap<Patient, TemplatePatient>().ForMember(d => d.Address, s => s.MapFrom(o => o.Address))
+                                                           .ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"));
 
 
             CreateMap<Appointment, AppointmentReturnDto>();
@@ -66,6 +71,11 @@ namespace EliteCare.Api.Mapper
             CreateMap<Doctor, DoctorReturnToAppointmentDtos>().ForMember(d => d.Name, s => s.MapFrom(o => $"{o.Fname} {o.Sname} {o.Lname}"))
                                                                .ForMember(d => d.DepartmentName, S => S.MapFrom(o => o.Department != null ? o.Department.Name : ""));
             CreateMap<Bill,BillReturnDto>();
+            CreateMap<AddBillDto,Bill>();
+
+            
+
+
         }
     }
 }

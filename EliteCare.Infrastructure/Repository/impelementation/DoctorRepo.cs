@@ -17,9 +17,24 @@ namespace EliteCare.Infrastructure.Repository.impelementation
         }
 
 
-        public Task<IEnumerable<Appointment>> GetAppointments(int AppointmentId)
+        public async Task<IEnumerable<Appointment>> GetAppointments(int DoctorId)
         {
-            throw new NotImplementedException();
+            var appointments = await _context.Appointments.Where(x => x.DoctorID == DoctorId).Include(x => x.Doctor).Include(x => x.Bill)
+                                                          .ToListAsync();
+
+
+            //var appointmentstoo = await _context.Receptionists.Where(x => x.ID == receptionistId)
+            //                                                   .SelectMany(x => x.Appointments)
+            //                                                   .ToListAsync();
+
+            //var appointmentstoothree = await (from a in _context.Appointments
+            //                                  join r in _context.Receptionists on a.ReceptionistID equals r.ID
+            //                                  where r.ID == receptionistId
+            //                                  select a).ToListAsync();
+
+
+
+            return appointments;
         }
 
         public async Task<Doctor?> GetDoctorByEmail(string email)

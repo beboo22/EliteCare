@@ -20,6 +20,7 @@ namespace EliteCare.Data.Entities
         public decimal Discount { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal BalanceAmount { get; set; }
+        public int? OdrederID { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public string Notes { get; set; }

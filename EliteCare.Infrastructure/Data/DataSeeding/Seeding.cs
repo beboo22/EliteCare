@@ -11,7 +11,7 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
 {
     public static class Seeding
     {
-        public async static Task SeedDataAsync(ApplicationDbContext context,ILogger logger)
+        public async static Task SeedDataAsync(ApplicationDbContext context, ILogger logger)
         {
             if (!context.Set<Department>().Any())
             {
@@ -19,12 +19,12 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "Department.json");
                 if (!File.Exists(fileName))
                 {
-                     logger.LogError("Department.json file not found");
+                    logger.LogError("Department.json file not found");
                     return;
                 }
                 connection = File.ReadAllText(fileName);
                 var data = JsonSerializer.Deserialize<List<Department>>(connection);
-                if(data is not null)
+                if (data is not null)
                 {
                     await context.Departments.AddRangeAsync(data);
                     try
@@ -37,21 +37,21 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                     }
                 }
             }
-                        
+
             if (!context.Set<Doctor>().Any())
             {
                 var connection = "";
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "Doctors.json");
                 if (!File.Exists(fileName))
                 {
-                     logger.LogError("Department.json file not found");
+                    logger.LogError("Department.json file not found");
                     return;
                 }
                 connection = File.ReadAllText(fileName);
                 var data = JsonSerializer.Deserialize<List<Doctor>>(connection);
                 foreach (var doctor in data)
                 {
-                    
+
                     var address = new Address
                     {
                         City = doctor.Address.City,
@@ -81,19 +81,19 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                     logger.LogError("Error while saveing Changes");
                 }
             }
-            
+
             if (!context.Set<Room>().Any())
             {
                 var connection = "";
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "Rooms.json");
                 if (!File.Exists(fileName))
                 {
-                     logger.LogError("Department.json file not found");
+                    logger.LogError("Department.json file not found");
                     return;
                 }
                 connection = File.ReadAllText(fileName);
                 var data = JsonSerializer.Deserialize<List<Room>>(connection);
-                if(data is not null)
+                if (data is not null)
                 {
                     await context.Set<Room>().AddRangeAsync(data);
                     try
@@ -106,21 +106,21 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                     }
                 }
             }
-            
+
             if (!context.Set<Nurse>().Any())
             {
                 var connection = "";
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "Nurses.json");
                 if (!File.Exists(fileName))
                 {
-                     logger.LogError("Nurses.json file not found");
+                    logger.LogError("Nurses.json file not found");
                     return;
                 }
                 connection = File.ReadAllText(fileName);
                 var data = JsonSerializer.Deserialize<List<Nurse>>(connection);
                 foreach (var nurse in data)
                 {
-                    
+
                     var address = new Address
                     {
                         City = nurse.Address.City,
@@ -150,21 +150,21 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                     logger.LogError("Error while saveing Changes");
                 }
             }
-            
+
             if (!context.Set<Patient>().Any())
             {
                 var connection = "";
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "Patient.json");
                 if (!File.Exists(fileName))
                 {
-                     logger.LogError("Nurses.json file not found");
+                    logger.LogError("Nurses.json file not found");
                     return;
                 }
                 connection = File.ReadAllText(fileName);
                 var data = JsonSerializer.Deserialize<List<Patient>>(connection);
                 foreach (var patient in data)
                 {
-                    
+
                     var address = new Address
                     {
                         City = patient.Address.City,
@@ -194,16 +194,43 @@ namespace EliteCare.Infrastructure.Data.DataSeeding
                     logger.LogError("Error while saveing Changes");
                 }
             }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            
+            
+            
+            if (!context.Set<Appointment>().Any())
+            {
+                var connection = "";
+                string fileName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Data", "appointments.json");
+                if (!File.Exists(fileName))
+                {
+                    logger.LogError("Nurses.json file not found");
+                    return;
+                }
+                connection = File.ReadAllText(fileName);
+                var data = JsonSerializer.Deserialize<List<Appointment>>(connection);
+                foreach (var patient in data)
+                {
+                    await context.Set<Appointment>().AddAsync(patient);
+                }
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError("Error while saveing Changes");
+                }
+            }
+
+
+
+
+
+
+
+
+
+
         }
 
 

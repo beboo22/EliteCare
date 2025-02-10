@@ -13,6 +13,6 @@ namespace EliteCare.Infrastructure.Repository.Abstract
         Task<Doctor> GetDoctorByEmail(string email);
         Task<IEnumerable<Doctor>> GetDoctorForDept(int departmentId);
         Task<IEnumerable<Doctor>> SpecialistDoctorInDepartment(int departmentId);
-        Task<IEnumerable<Appointment>> GetAppointments(int AppointmentId);
+        Task<IEnumerable<Appointment>> GetAppointments(int DoctorId);
     }
 }

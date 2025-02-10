@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace EliteCare.Infrastructure.Repository.Abstract
 {
-    public interface INurseRepo : IGenericRepository<Nurse>
+    public interface IBillRepo
     {
-        Task<Nurse> GetNurseByEmail(string email);
-
+        public Bill GetByOrderddId(int oderdId);
     }
 }

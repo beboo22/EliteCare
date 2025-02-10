@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+    <PackageReference Include="Xdot.Paymob.CashIn.DependencyInjection" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>

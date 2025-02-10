@@ -43,6 +43,11 @@ namespace EliteCare.Infrastructure.Data.configuration
                    .HasForeignKey<Appointment>(p => p.BillID) // FK on Appointment
                    .OnDelete(DeleteBehavior.NoAction);
 
+
+
+
+            builder.Property(a => a.BillID).IsRequired(false).IsUnicode(false);
+
         }
     }
 }

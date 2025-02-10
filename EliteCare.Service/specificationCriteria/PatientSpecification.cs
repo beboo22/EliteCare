@@ -3,17 +3,15 @@ using EliteCare.Data.Specification;
 
 namespace EliteCare.Service.specificationCriteria
 {
-    internal class PatientSpecification: Specification<Patient>
+    internal class PatientSpecification : Specification<Patient>
     {
-        public PatientSpecification(string? Email, int? patientId) 
-            : base(p => (string.IsNullOrEmpty(Email) || p.Email.ToLower() == Email.ToLower())
-                    && (!patientId.HasValue|| p.ID == patientId.Value) )
+        public PatientSpecification(string? Email, int? patientId)
+            : base(
+                  d => (string.IsNullOrEmpty(Email) || d.Email.ToLower() == Email.ToLower())
+                  && (!patientId.HasValue || d.ID == patientId.Value))
         {
-                AddInclude(p => p.Address);
-            if (patientId.HasValue)
-            {
-                SelectMny = p => p.Appointments;
-            }
+            AddInclude(p => p.Address);
+            AddInclude(p => p.Appointments);
         }
     }
 }

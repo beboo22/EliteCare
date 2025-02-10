@@ -20,18 +20,6 @@ namespace EliteCare.Infrastructure.Repository.impelementation
             _context = context;
         }
 
-        public IQueryable<T> GetAllAsync()
-        {
-            var query = _context.Set<T>().AsQueryable();
-            return query;
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x=>x.ID == id);
-            return entity;
-        }
-
         public async Task<bool> AddAsync(T entity)
         {
             try
@@ -59,8 +47,6 @@ namespace EliteCare.Infrastructure.Repository.impelementation
             }
         }
 
-
-
         public bool Update(T entity)
         {
             try
@@ -74,6 +60,19 @@ namespace EliteCare.Infrastructure.Repository.impelementation
             {
                 return false;
             }
+        }
+
+
+
+        public IQueryable<T> GetAllAsync()
+        {
+            var query = _context.Set<T>().AsQueryable();
+            return query;
+        }
+        public async Task<T> GetByIdAsync(int id)
+        {
+            var entity = await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x=>x.ID == id);
+            return entity;
         }
 
         public async Task<IEnumerable<T>> GetBySpecification(ISpecification<T> specification)
@@ -90,23 +89,16 @@ namespace EliteCare.Infrastructure.Repository.impelementation
                 return new List<T>();
             }
         }
-
-
         public async Task<T?> GetByIDSpecification(ISpecification<T> specification)
         {
             var query = await SpecificationEvaluation<T>.GetQuery(_context.Set<T>().AsQueryable(), specification).FirstOrDefaultAsync();
             return query ?? null;
         }
-
-
-
         public async Task<bool> IsExist(int Id)
         {
             try
             {
-                var item = await _context.Set<T>().FindAsync(Id);
-
-                return item is not null ? true : false;
+                return await _context.Set<T>().AnyAsync(x => x.ID == Id);
             }
             catch (Exception ex)
             {
