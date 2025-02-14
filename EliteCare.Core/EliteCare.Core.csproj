@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <Folder Include="Features\Appointments\Commands\Validations\" />
+    <Folder Include="Features\Authentications\Commands\Validations\" />
+    <Folder Include="Features\Authentications\Queries\Handlers\" />
+    <Folder Include="Features\Authentications\Queries\Models\" />
+    <Folder Include="Features\Authentications\Queries\Response\" />
+    <Folder Include="Features\Authorizations\Commands\Validations\" />
     <Folder Include="Features\Bills\Commands\Validations\" />
     <Folder Include="Features\Bills\Queries\Handlers\" />
     <Folder Include="Features\Bills\Queries\Models\" />
@@ -37,6 +42,7 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

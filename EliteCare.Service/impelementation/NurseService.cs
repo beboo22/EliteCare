@@ -95,13 +95,6 @@ namespace EliteCare.Service.impelementation
 
 
             flag = _nurseRepo.Delete(nures);
-
-            if (flag)
-            {
-                await _unitOfWork.Commit();
-                return new ApiResponse(200);
-
-            }
             if (flag)
             {
                 int check = await _unitOfWork.Commit();

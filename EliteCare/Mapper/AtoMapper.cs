@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EliteCare.Core.Dtos;
+using EliteCare.Core.Features.Authorizations.Queries.Response;
 using EliteCare.Core.Features.Departments.Queries.Response;
 using EliteCare.Core.Features.Doctors.Queries.Response;
 using EliteCare.Core.Features.Nurse.Queries.Response;
@@ -8,6 +9,7 @@ using EliteCare.Core.Features.Receptionists.Queries.Response;
 using EliteCare.Core.Features.SpecialistDoctorInDepartment.Queries.Validations;
 using EliteCare.Core.Mapping;
 using EliteCare.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace EliteCare.Api.Mapper
 {
@@ -64,6 +66,7 @@ namespace EliteCare.Api.Mapper
             CreateMap<Appointment, AppointmentReturnDto>();
 
             CreateMap<AddAppointmentDtos, Appointment>();
+            CreateMap<UpdateAppointmentDtos, Appointment>();
 
             CreateMap<Prescription, PrescriptionReturnToAppointmentDto>();
             CreateMap<Receptionist, ReceptionistReturnToAppointmentDtos>();                                                                         
@@ -73,8 +76,8 @@ namespace EliteCare.Api.Mapper
             CreateMap<Bill,BillReturnDto>();
             CreateMap<AddBillDto,Bill>();
 
-            
 
+            CreateMap<IdentityRole<int>, TemplateRole>();
 
         }
     }

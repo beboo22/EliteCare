@@ -1,6 +1,9 @@
 using EliteCare.Api.Mapper;
 using EliteCare.Core.Features.Appointments.Commands.Handlers;
 using EliteCare.Core.Features.Appointments.Queries.Handlers;
+using EliteCare.Core.Features.Authentications.Commands.Handlers;
+using EliteCare.Core.Features.Authorizations.Commands.Handlers;
+using EliteCare.Core.Features.Authorizations.Queries.Handlers;
 using EliteCare.Core.Features.Bills.Commands.Handlers;
 using EliteCare.Core.Features.Departments.Commands.Handlers;
 using EliteCare.Core.Features.Departments.Queries.Handlers;
@@ -15,12 +18,15 @@ using EliteCare.Core.Features.SpecialistDoctorInDepartments.Commands.Handlers;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
 using EliteCare.Infrastructure.Data.DataSeeding;
+using EliteCare.Infrastructure.IdentityData;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.Abstract;
 using EliteCare.Service.impelementation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using X.Paymob.CashIn;
 
@@ -41,6 +47,25 @@ namespace EliteCare.Api
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+            builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
+
+            builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options=>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-@.";
+            })
+                            .AddEntityFrameworkStores<AppIdentityDbContext>()
+                            .AddDefaultTokenProviders();
+
+
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
             builder.Services.AddScoped(typeof(IDoctorService), typeof(DoctorService));
 
@@ -52,11 +77,11 @@ namespace EliteCare.Api
 
             builder.Services.AddScoped(typeof(IReceptionistService), typeof(ReceptionistService));
             builder.Services.AddScoped(typeof(IReceptionistRepo), typeof(ReceptionistRepo));
-            
-            
+
+
             builder.Services.AddScoped(typeof(IPatientRepo), typeof(PatientRepo));
             builder.Services.AddScoped(typeof(IPatientService), typeof(PatientService));
-            
+
             builder.Services.AddScoped(typeof(IAppointmentService), typeof(AppointmentService));
 
             builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
@@ -68,14 +93,18 @@ namespace EliteCare.Api
 
             builder.Services.AddScoped(typeof(IGenrateService), typeof(GenrateService));
             builder.Services.AddScoped(typeof(ICachedService<>), typeof(CachedService<>));
-            
-            
+
+
             builder.Services.AddScoped(typeof(IBookingService), typeof(BookingService));
             builder.Services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
-            
-            
-            
+
+
+
             builder.Services.AddScoped(typeof(IBillRepo), typeof(BillRepo));
+
+
+            builder.Services.AddScoped(typeof(IAuthenticationService), typeof(AuthenticationService));
+            builder.Services.AddScoped(typeof(IAuthorizationService), typeof(AuthorizationService));
 
 
 
@@ -86,7 +115,7 @@ namespace EliteCare.Api
 
             builder.Services.AddAutoMapper(typeof(AtoMapper));
 
-            
+
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(typeof(DoctorQueryHandler).Assembly);
@@ -111,7 +140,14 @@ namespace EliteCare.Api
                 cfg.RegisterServicesFromAssemblies(typeof(ReceptionistCommandHandler).Assembly);
 
                 cfg.RegisterServicesFromAssemblies(typeof(BillsCommanHandler).Assembly);
-                               
+
+
+                cfg.RegisterServicesFromAssemblies(typeof(RoleCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(RoleQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(AuthenticationCommandHandler).Assembly);
+
+                //cfg.RegisterServicesFromAssemblies(typeof(Au).Assembly);
+
 
             });
 

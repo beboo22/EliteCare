@@ -21,7 +21,7 @@ namespace EliteCare.Service.impelementation
             var Check = await DocRepo.IsExist(appointment.DoctorID);
             if (!Check && appointment.Doctor.IsActive is false)
                 return new ApiResponse(404, "There's no Doctor By this DoctorID OR Not Active");
-            
+
             var PatientRepo = _unitOfWork.Repo<Patient>();
             Check = await PatientRepo.IsExist(appointment.PatientID);
             if (!Check && appointment.Patient.IsActive is false)
@@ -34,10 +34,10 @@ namespace EliteCare.Service.impelementation
                 if (!Check && appointment.Receptionist.IsActive is false)
                     return new ApiResponse(404, "There's no Receptionist By this ReceptionistID OR Not Active");
             }
-            
+
             var AppointRepo = _unitOfWork.Repo<Appointment>();
             Check = await AppointRepo.AddAsync(appointment);
-            if (!Check)
+            if (Check)
             {
                 int check = await _unitOfWork.Commit();
                 if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
@@ -53,8 +53,8 @@ namespace EliteCare.Service.impelementation
             var appointment = await AppointRepo.GetByIdAsync(id);
             if (appointment is null) return new ApiResponse(404, "Appointment Not Found");
 
-            var Check =  AppointRepo.Delete(appointment);
-            if (!Check)
+            var Check = AppointRepo.Delete(appointment);
+            if (Check)
             {
                 int check = await _unitOfWork.Commit();
                 if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
@@ -75,7 +75,7 @@ namespace EliteCare.Service.impelementation
             if (!Check && appointment.Patient.IsActive is false)
                 return new ApiResponse(404, "There's no Patient By this PatientID OR Not Active");
 
-            
+
             if (appointment.ReceptionistID.HasValue)
             {
                 var ReceptionistRepo = _unitOfWork.Repo<Receptionist>();
@@ -104,11 +104,16 @@ namespace EliteCare.Service.impelementation
                 if (!Check && appointment.Bill.IsActive is false)
                     return new ApiResponse(404, "There's no Bill By this BillID OR Not Active");
             }
-
             var AppointRepo = _unitOfWork.Repo<Appointment>();
+            Check = await AppointRepo.IsExist(appointment.ID);
+            if (!Check)
+            {
+                return new ApiResponse(404, "There's no Appointment By this AppointmentID");
+            }
+
             appointment.UpdatedAt = DateTime.Now;
             Check = AppointRepo.Update(appointment);
-            if (!Check)
+            if (Check)
             {
                 int check = await _unitOfWork.Commit();
                 if (check < 0) return new ApiResponse(500, "Error While Saving Changing");
@@ -133,6 +138,6 @@ namespace EliteCare.Service.impelementation
             return AllAppointment;
         }
 
-        
+
     }
 }
