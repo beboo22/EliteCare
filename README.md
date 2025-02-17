@@ -5,10 +5,13 @@
 ## Table of Contents
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Project Structure](#Project-Structure)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Prerequisites](#Prerequisites)
 - [License](#license)
+- [Contact](#Contact)
 
 ## Features
 
