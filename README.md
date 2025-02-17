@@ -35,6 +35,7 @@
 
 
 ## 📂 Project Structure
+
 -EliteCare/
 - ├── EliteCare.API/ # API Layer
 - ├── EliteCare.Core/ # Core Domain Layer
@@ -45,6 +46,7 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - **.NET 8 SDK**
 - **SQL Server**
 - **Redis**
