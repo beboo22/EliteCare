@@ -33,10 +33,10 @@
 
 ## 📂 Project Structure
 -EliteCare/
- ├── EliteCare.API/ # API Layer
- ├── EliteCare.Core/ # Core Domain Layer
- ├── EliteCare.Infrastructure/ # Infrastructure Layer
- └──  EliteCare.Application/ # Application Layer
+- ├── EliteCare.API/ # API Layer
+- ├── EliteCare.Core/ # Core Domain Layer
+- ├── EliteCare.Infrastructure/ # Infrastructure Layer
+- └──  EliteCare.Application/ # Application Layer
  
 
 ## 🚀 Getting Started
