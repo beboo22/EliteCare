@@ -92,7 +92,7 @@ We welcome contributions to make EliteCare better! Here’s how you can help:
 4. Push to the branch (`git push origin feature-name`)
 5. Open a Pull Request
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
 
