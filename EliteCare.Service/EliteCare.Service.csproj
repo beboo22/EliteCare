@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.10.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="8.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.12" />
+    <PackageReference Include="MimeKit" Version="4.10.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
     <PackageReference Include="Xdot.Paymob.CashIn.DependencyInjection" Version="1.0.7" />
   </ItemGroup>

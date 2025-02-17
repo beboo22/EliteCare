@@ -14,11 +14,11 @@ namespace EliteCare.Core.Features.Authentications.Commands.Models
         public string UserName { get; set; } 
         public string Password { get; set; }
 
-        public SignInCommand(string userName, string password)
-        {
-            UserName = userName;
-            Password = password;
-        }
+        //public SignInCommand(string userName, string password)
+        //{
+        //    UserName = userName;
+        //    Password = password;
+        //}
 
     }
 }

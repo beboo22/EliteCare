@@ -12,6 +12,7 @@ namespace EliteCare.Service.Abstract
     public interface IAuthenticationService
     {
         Task<JwtAuthResponse> GetJwtToken(IdentityUser<int> user);
+        Task SendEmailAsync(string recipientEmail, string subject, string body);
         //JwtSecurityToken ReadJwtToken(string accessToken);
         //Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string accessToken, string refreshTken);
         //Task<JwtAuthResponse> GetRefreshToken(IdentityUser<int> user, JwtSecurityToken jwtToken, DateTime? expiryDate, string refreshToken);

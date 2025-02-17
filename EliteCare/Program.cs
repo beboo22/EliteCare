@@ -17,17 +17,20 @@ using EliteCare.Core.Features.Receptionists.Queries.Handlers;
 using EliteCare.Core.Features.SpecialistDoctorInDepartments.Commands.Handlers;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
-using EliteCare.Infrastructure.Data.DataSeeding;
 using EliteCare.Infrastructure.IdentityData;
 using EliteCare.Infrastructure.Repository.Abstract;
 using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.Abstract;
 using EliteCare.Service.impelementation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using System.Text;
 using X.Paymob.CashIn;
 
 namespace EliteCare.Api
@@ -51,7 +54,7 @@ namespace EliteCare.Api
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
 
-            builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options=>
+            builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -64,6 +67,71 @@ namespace EliteCare.Api
             })
                             .AddEntityFrameworkStores<AppIdentityDbContext>()
                             .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Jwt:validIssuer"],
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Jwt:VaildAudience"],
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Authkey"] ?? string.Empty)),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Bearer", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            }).AddCookie()
+             //.AddGoogle(googleOptions =>
+             //{
+             //    googleOptions.ClientId = builder.Configuration["Google:client_id"];
+             //    googleOptions.ClientSecret = builder.Configuration["Google:client_secret"];
+             //    googleOptions.CallbackPath = "/api/Authentication/signin-google-callback";
+             //    //googleOptions.ClaimActions = 
+             //})
+             .AddFacebook(facebookOptions =>
+             {
+                 facebookOptions.AppId = builder.Configuration["faceBook:App_ID"];
+                 facebookOptions.AppSecret = builder.Configuration["faceBook:App_secret"];
+                 facebookOptions.CallbackPath = "/api/Authentication/signin-facebook";
+             });
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Requires HTTPS
+            });
+            
+
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //})
+            //.AddCookie() // Use cookies to store the user's session
+            //.AddGoogle(options =>
+            //{
+            //    options.ClientId = builder.Configuration["Google:client_id"];
+            //    options.ClientSecret = builder.Configuration["Google:client_secret"];
+            //});
+
 
 
             builder.Services.AddScoped(typeof(IDoctorRepo), typeof(DoctorRepo));
@@ -101,6 +169,7 @@ namespace EliteCare.Api
 
 
             builder.Services.AddScoped(typeof(IBillRepo), typeof(BillRepo));
+            //builder.Services.AddSession();
 
 
             builder.Services.AddScoped(typeof(IAuthenticationService), typeof(AuthenticationService));
@@ -172,8 +241,16 @@ namespace EliteCare.Api
 
 
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
 
             var app = builder.Build();
+            app.UseCors("AllowAll");
 
 
 
@@ -221,10 +298,12 @@ namespace EliteCare.Api
                .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader());
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-
+            //app.UseSession();
             app.Run();
 
         }

@@ -3,12 +3,12 @@ using EliteCare.Core.Features.Doctors.Commands.Models;
 using EliteCare.Core.Features.Doctors.Queries.Models;
 using EliteCare.Core.Mapping;
 using EliteCare.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace EliteCare.Api.Controllers
 {
-
     public class DoctorController : BaseController
     {
 
@@ -57,7 +57,7 @@ namespace EliteCare.Api.Controllers
         #endregion
 
 
-
+        [Authorize("Bearer")]
         [HttpGet("GetAllDoctor")]
         public async Task<IActionResult> GetAllDoctor()
         {

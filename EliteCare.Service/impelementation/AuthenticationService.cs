@@ -1,17 +1,16 @@
-﻿using EliteCare.Data.Entities.Identity;
-using EliteCare.Service.Abstract;
+﻿using EliteCare.Service.Abstract;
 using EliteCare.Service.BaseResponse;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+using MimeKit;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EliteCare.Service.impelementation
 {
@@ -88,12 +87,25 @@ namespace EliteCare.Service.impelementation
 
         }
 
+        public async Task SendEmailAsync(string recipientEmail, string subject, string body)
+        {
+            var email = new MimeMessage();
+            email.From.Add(new MailboxAddress("EliteCare", "mt557829@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(recipientEmail));
+            email.Subject = subject;
+            email.Body = new TextPart("plain") { Text = body };
 
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls); // ✅ Recommended
+                                                                                                // OR
+                //await client.ConnectAsync("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect); // ✅ Alternative
 
-
-
-
-
-
+                //await client.ConnectAsync("smtp.gmail.com", 465, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync("mt557829@gmail.com", "qviiiincdfuumkcg");
+                await client.SendAsync(email);
+                await client.DisconnectAsync(true);
+            }
+        }
     }
 }
