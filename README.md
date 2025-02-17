@@ -32,7 +32,7 @@
 
 
 ## 📂 Project Structure
-EliteCare/
+-EliteCare/
  ├── EliteCare.API/ # API Layer
  ├── EliteCare.Core/ # Core Domain Layer
  ├── EliteCare.Infrastructure/ # Infrastructure Layer
