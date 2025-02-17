@@ -104,6 +104,6 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 ## 📞 Contact
 
 For any questions or suggestions, feel free to reach out:
-Email: moammedtareq8@gmail.com
-GitHub: beboo22
+-Email: moammedtareq8@gmail.com
+-GitHub: beboo22
 
