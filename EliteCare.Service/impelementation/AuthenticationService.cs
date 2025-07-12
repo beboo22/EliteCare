@@ -1,14 +1,10 @@
-﻿using EliteCare.Service.Abstract;
+﻿using EliteCare.Data.ServiceAbstract;
 using EliteCare.Service.BaseResponse;
-using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using MimeKit;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 

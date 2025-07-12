@@ -1,9 +1,8 @@
-﻿using EliteCare.Data.Entities;
-using EliteCare.Infrastructure.Repository.Abstract;
-using EliteCare.Infrastructure;
-using EliteCare.Service.Abstract;
+﻿using EliteCare.Data;
+using EliteCare.Data.Abstract;
+using EliteCare.Data.Entities;
+using EliteCare.Data.ServiceAbstract;
 using EliteCare.Service.BaseResponse;
-using EliteCare.Infrastructure.Repository.impelementation;
 using EliteCare.Service.specificationCriteria;
 
 namespace EliteCare.Service.impelementation

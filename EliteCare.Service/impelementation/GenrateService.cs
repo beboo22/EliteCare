@@ -1,16 +1,7 @@
 ﻿using EliteCare.Data.Entities;
-using EliteCare.Infrastructure.Data;
-using EliteCare.Infrastructure.Repository.Abstract;
-using EliteCare.Infrastructure;
-using EliteCare.Service.Abstract;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EliteCare.Service.specificationCriteria;
 using EliteCare.Data.Specification;
+using EliteCare.Data.ServiceAbstract;
 
 namespace EliteCare.Service.impelementation
 {

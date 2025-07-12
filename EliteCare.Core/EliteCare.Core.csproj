@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EliteCare.Service\EliteCare.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Features\Appointments\Commands\Validations\" />
     <Folder Include="Features\Authentications\Commands\Validations\" />
     <Folder Include="Features\Authentications\Queries\Handlers\" />
@@ -43,6 +39,10 @@
     <PackageReference Include="MediatR" Version="12.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EliteCare.Service\EliteCare.Service.csproj" />
   </ItemGroup>
 
 </Project>

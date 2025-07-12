@@ -1,15 +1,8 @@
-﻿using EliteCare.Data.Entities;
-using EliteCare.Infrastructure;
-using EliteCare.Infrastructure.Data;
-using EliteCare.Infrastructure.Repository.Abstract;
-using EliteCare.Service.Abstract;
+﻿using EliteCare.Data;
+using EliteCare.Data.Abstract;
+using EliteCare.Data.Entities;
+using EliteCare.Data.ServiceAbstract;
 using EliteCare.Service.BaseResponse;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EliteCare.Service.impelementation
 {

@@ -1,10 +1,6 @@
-﻿using EliteCare.Data.Entities;
-using EliteCare.Service.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EliteCare.Data.BaseResponse;
+using EliteCare.Data.Entities;
+using EliteCare.Data.ServiceAbstract;
 using X.Paymob.CashIn;
 using X.Paymob.CashIn.Models.Orders;
 using X.Paymob.CashIn.Models.Payment;
@@ -45,9 +41,5 @@ namespace EliteCare.Service.impelementation
             return new PaymentReturn() { orederdId = orderResponse.Id , Token = _broker.CreateIframeSrc(iframeId: "898882", token: paymentKeyResponse.PaymentKey) };
         }
     }
-    public class PaymentReturn
-    {
-        public int orederdId { get; set; }
-        public string Token { get; set; }
-    }
+    
 }

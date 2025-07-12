@@ -1,4 +1,5 @@
-﻿using EliteCare.Infrastructure.IdentityData;
+﻿using EliteCare.Data.ServiceAbstract;
+using EliteCare.Infrastructure.IdentityData;
 using EliteCare.Service.Abstract;
 using EliteCare.Service.BaseResponse;
 using Microsoft.AspNetCore.Identity;
@@ -19,17 +20,16 @@ namespace EliteCare.Service.impelementation
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly UserManager<IdentityUser<int>> _userManager;
         private readonly ILogger<AuthorizationService> _logger;
-        private readonly AppIdentityDbContext _dbContext;
+        //private readonly AppIdentityDbContext _dbContext;
         #endregion
 
         #region Constructors
         public AuthorizationService(RoleManager<IdentityRole<int>> roleManager, UserManager<IdentityUser<int>> userManager,
-           ILogger<AuthorizationService> logger, AppIdentityDbContext dbContext)
+           ILogger<AuthorizationService> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _logger = logger;
-            _dbContext = dbContext;
         }
         #endregion
 
@@ -173,40 +173,41 @@ namespace EliteCare.Service.impelementation
 
         public async Task<ApiResponse> UpdateUserRoles(int UserId, IEnumerable<string> roles)
         {
-            var trans = await _dbContext.Database.BeginTransactionAsync();
-            try
-            {
-                var user = await _userManager.FindByIdAsync(UserId.ToString());
-                if (user == null)
-                {
-                    return new ApiResponse(404,"UserNotFound");
-                }
+            //var trans = await _dbContext.Database.BeginTransactionAsync();
+            //try
+            //{
+            //    var user = await _userManager.FindByIdAsync(UserId.ToString());
+            //    if (user == null)
+            //    {
+            //        return new ApiResponse(404,"UserNotFound");
+            //    }
 
-                var rolesForUser = await _userManager.GetRolesAsync(user);
-                if (rolesForUser.Count > 0)
-                {
-                    var IsDeleted = await _userManager.RemoveFromRolesAsync(user, rolesForUser);
-                    if (!IsDeleted.Succeeded)
-                        return new ApiResponse(500, "FailedDeleted");
+            //    var rolesForUser = await _userManager.GetRolesAsync(user);
+            //    if (rolesForUser.Count > 0)
+            //    {
+            //        var IsDeleted = await _userManager.RemoveFromRolesAsync(user, rolesForUser);
+            //        if (!IsDeleted.Succeeded)
+            //            return new ApiResponse(500, "FailedDeleted");
 
-                }
+            //    }
 
-                //var newRoles = request.UserRoles.Where(x => x.HasRole == true).Select(x => x.Name);
-                var IsAdded = await _userManager.AddToRolesAsync(user, roles);
+            //    //var newRoles = request.UserRoles.Where(x => x.HasRole == true).Select(x => x.Name);
+            //    var IsAdded = await _userManager.AddToRolesAsync(user, roles);
 
-                if (!IsAdded.Succeeded)
-                    return new ApiResponse(500, "FailedAdded");
+            //    if (!IsAdded.Succeeded)
+            //        return new ApiResponse(500, "FailedAdded");
 
-                await trans.CommitAsync();
-                return new ApiResponse(200, "Success");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogDebug(ex, "Error in UpdateUserRoles");
-                await trans.RollbackAsync();
-                return new ApiResponse(500, "FaildAdded");
-                throw;
-            }
+            //    await trans.CommitAsync();
+            //    return new ApiResponse(200, "Success");
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogDebug(ex, "Error in UpdateUserRoles");
+            //    await trans.RollbackAsync();
+            //    return new ApiResponse(500, "FaildAdded");
+            //    throw;
+            //}
+            throw new NotImplementedException("UpdateUserRoles method is not implemented yet.");
         }
 
         #endregion

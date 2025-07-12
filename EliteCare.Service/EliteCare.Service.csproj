@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EliteCare.Infrastructure\EliteCare.Infrastructure.csproj" />
+    <ProjectReference Include="..\EliteCare.Data\EliteCare.Data.csproj" />
   </ItemGroup>
 
 </Project>

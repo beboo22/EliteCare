@@ -1,4 +1,7 @@
-﻿using EliteCare.Data.Entities;
+﻿using EliteCare.Data;
+using EliteCare.Data.Abstract;
+using EliteCare.Data.Entities;
+using EliteCare.Data.ServiceAbstract;
 using EliteCare.Infrastructure;
 using EliteCare.Infrastructure.Data;
 using EliteCare.Infrastructure.Repository.Abstract;
@@ -20,14 +23,12 @@ namespace EliteCare.Service.impelementation
 
         public IUnitOfWork _unitOfWork;
         public IDoctorRepo DoctorRepo { get; set; }
-        ApplicationDbContext _context;
         IAddressRepo _addressRepo { get; set; }
 
-        public DoctorService(IDoctorRepo doctorRepo, IUnitOfWork unitOfWork, ApplicationDbContext context, IAddressRepo addressRepo)
+        public DoctorService(IDoctorRepo doctorRepo, IUnitOfWork unitOfWork, IAddressRepo addressRepo)
         {
             DoctorRepo = doctorRepo;
             _unitOfWork = unitOfWork;
-            _context = context;
             _addressRepo = addressRepo;
         }
 
